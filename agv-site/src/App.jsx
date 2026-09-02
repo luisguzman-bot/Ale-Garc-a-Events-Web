@@ -48,7 +48,7 @@ const LOGO_COFFEE = "/images/logo-coffee.png";
 // ---------------------------------------------------------------------------
 // Datos de negocio — EDITAR AQUÍ cuando cambien precios, WhatsApp o contenido
 // ---------------------------------------------------------------------------
-const WHATSAPP_NUMBER = "5213312345678"; // TODO (Ale García): número real de WhatsApp Business
+const WHATSAPP_NUMBER = "523329712214"; // Número real de WhatsApp Business de Ale García
 
 // Fotos de portada (banner superior) de Coffee Breaks y Planner.
 // Súbelas al chat y se reemplaza este null por la foto real (ver PageHero más abajo).
@@ -168,11 +168,12 @@ const INCLUSIONS = {
 };
 
 const PLANNER_SERVICES = [
-  { key: "boda", label: "Bodas", blurb: "Desde la propuesta hasta el último baile, cada detalle cuidado.", image: null },
-  { key: "xv", label: "15 años", blurb: "La fiesta que marca su transición, sin que a ti te falte nada.", image: null },
-  { key: "posada", label: "Posadas empresariales", blurb: "La fiesta de fin de año de tu equipo, resuelta de principio a fin.", image: IMG_SERVICE_POSADA },
-  { key: "kickoff", label: "Kickoffs", blurb: "Arranca el año con un evento que marca el tono.", image: IMG_SERVICE_KICKOFF },
-  { key: "otro", label: "Aniversarios y otros", blurb: "Celebraciones a la medida, sin importar el motivo.", image: IMG_SERVICE_OTROS },
+  { key: "boda", label: "Bodas", blurb: "Desde la propuesta hasta el último baile, cada detalle cuidado.", image: null, route: "/bodas" },
+  { key: "xv", label: "15 años", blurb: "La fiesta que marca su transición, sin que a ti te falte nada.", image: null, route: "/xv-anos" },
+  { key: "posada", label: "Posadas empresariales", blurb: "La fiesta de fin de año de tu equipo, resuelta de principio a fin.", image: IMG_SERVICE_POSADA, route: "/posadas-empresariales" },
+  { key: "kickoff", label: "Kickoffs", blurb: "Arranca el año con un evento que marca el tono.", image: IMG_SERVICE_KICKOFF, route: "/kickoff-empresarial" },
+  { key: "otro", label: "Aniversarios y otros", blurb: "Celebraciones a la medida, sin importar el motivo.", image: IMG_SERVICE_OTROS, route: "/aniversarios" },
+  { key: "convencion", label: "Convenciones", blurb: "Juntas y congresos de gran formato, con logística que no se nota — solo funciona.", image: null, route: "/convenciones" },
 ];
 
 // TODO (Ale García): revisar/ajustar esta descripción de las 3 etapas de trabajo — texto borrador.
@@ -528,7 +529,9 @@ function WhatsAppFAB({ message }) {
 function NavBar() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-  const view = pathname === "/coffee-breaks" ? "coffee" : pathname === "/planner" ? "planner" : "home";
+  const plannerRoutes = ["/planner", "/posadas-empresariales", "/kickoff-empresarial", "/bodas", "/xv-anos", "/aniversarios", "/convenciones"];
+  const isPlannerSection = plannerRoutes.includes(pathname);
+  const view = pathname === "/coffee-breaks" ? "coffee" : isPlannerSection ? "planner" : pathname === "/contacto" ? "contacto" : "home";
 
   const NavLink = ({ to, k, label }) => (
     <Link
@@ -574,8 +577,9 @@ function NavBar() {
           <CenterLogo />
         </Link>
 
-        <div className="flex-1 hidden md:flex items-center justify-end">
+        <div className="flex-1 hidden md:flex items-center justify-end gap-6">
           <NavLink to="/planner" k="planner" label="Planner" />
+          <NavLink to="/contacto" k="contacto" label="Contacto" />
         </div>
 
         <button className="md:hidden shrink-0" onClick={() => setOpen((o) => !o)} aria-label="Abrir menú">
@@ -585,7 +589,7 @@ function NavBar() {
 
       {open && (
         <div className="md:hidden px-5 pb-4 flex flex-col gap-3">
-          {[{ to: "/", key: "home", label: "Inicio" }, { to: "/coffee-breaks", key: "coffee", label: "Coffee Breaks" }, { to: "/planner", key: "planner", label: "Planner" }].map((it) => (
+          {[{ to: "/", key: "home", label: "Inicio" }, { to: "/coffee-breaks", key: "coffee", label: "Coffee Breaks" }, { to: "/planner", key: "planner", label: "Planner" }, { to: "/contacto", key: "contacto", label: "Contacto" }].map((it) => (
             <Link
               key={it.key}
               to={it.to}
@@ -871,16 +875,27 @@ function TierCard({ tierKey, tier, selected, onSelect }) {
   return (
     <button
       onClick={() => onSelect(tierKey)}
-      className="text-left rounded-2xl overflow-hidden transition-all flex items-stretch w-full"
+      className="text-left rounded-2xl overflow-hidden transition-all flex flex-col w-full h-full"
       style={{
         backgroundColor: selected ? COLOR.blush : COLOR.paper,
         border: `2px solid ${selected ? COLOR.blushDeep : COLOR.blushSoft}`,
         boxShadow: selected ? "0 8px 20px rgba(156,101,117,0.25)" : "none",
       }}
     >
-      <div className="p-5 w-56 sm:w-64 shrink-0">
+      {/* La foto va arriba, a todo lo ancho: en un coffee break lo visual vende
+          primero que la lista de inclusiones. */}
+      <PhotoPlaceholder
+        label={`Foto: montaje Nivel ${tier.label}`}
+        accent={selected ? COLOR.paper : COLOR.blush}
+        rounded={false}
+        bordered={false}
+        hoverLift={false}
+        className="w-full h-52"
+        style={{ background: `linear-gradient(135deg, ${COLOR.creamDeep} 0%, ${COLOR.blushSoft} 60%, ${COLOR.paper} 100%)` }}
+      />
+      <div className="p-5 flex-1 flex flex-col">
         <span
-          className="inline-block text-[11px] uppercase tracking-widest px-2 py-1 rounded-full mb-3"
+          className="inline-block self-start text-[11px] uppercase tracking-widest px-2 py-1 rounded-full mb-3"
           style={{
             backgroundColor: selected ? COLOR.ink : COLOR.blushSoft,
             color: selected ? COLOR.paper : COLOR.blushDeep,
@@ -908,15 +923,6 @@ function TierCard({ tierKey, tier, selected, onSelect }) {
           ))}
         </ul>
       </div>
-      <PhotoPlaceholder
-        label={`Foto: montaje Nivel ${tier.label}`}
-        accent={selected ? COLOR.paper : COLOR.blush}
-        rounded={false}
-        bordered={false}
-        hoverLift={false}
-        className="flex-1 self-stretch"
-        style={{ background: `linear-gradient(135deg, ${COLOR.creamDeep} 0%, ${COLOR.blushSoft} 60%, ${COLOR.paper} 100%)` }}
-      />
     </button>
   );
 }
@@ -1091,75 +1097,111 @@ function CoffeeBreaksView() {
 // ---------------------------------------------------------------------------
 // PLANNER — servicios + formulario de cotización (lead → WhatsApp)
 // ---------------------------------------------------------------------------
-function PlannerLeadForm() {
-  const [form, setForm] = useState({ tipo: PLANNER_SERVICES[0].label, fecha: "", invitados: "", mensaje: "" });
+function PlannerLeadForm({ defaultTipo, serviceOptions, title = "Cuéntanos de tu evento", waIntro = "Hola, quiero cotizar un evento con Ale García Planner." }) {
+  const options = serviceOptions || PLANNER_SERVICES.map((s) => s.label);
+  const [form, setForm] = useState({
+    nombre: "", empresa: "", telefono: "",
+    tipo: defaultTipo || options[0], fecha: "", invitados: "", mensaje: "",
+  });
 
+  // Campos mínimos que pide la sección 0.3 de la estrategia: nombre, empresa,
+  // tipo de evento, número de personas, teléfono — antes solo teníamos 2 de 5.
   const waMsg =
-    `Hola, quiero cotizar un evento con Ale García Planner.\n` +
+    `${waIntro}\n` +
+    `Nombre: ${form.nombre || "—"}\n` +
+    `Empresa: ${form.empresa || "—"}\n` +
     `Tipo de evento: ${form.tipo}\n` +
+    `Teléfono: ${form.telefono || "—"}\n` +
     `Fecha tentativa: ${form.fecha || "por definir"}\n` +
     `Número de invitados: ${form.invitados || "por definir"}\n` +
     `Mensaje: ${form.mensaje || "—"}`;
+
+  const inputStyle = { border: `1px solid ${COLOR.roseSoft}`, fontFamily: FONTS.body, color: COLOR.ink, backgroundColor: COLOR.cream };
+  const labelClass = "block text-xs uppercase tracking-wider mb-1";
+  const labelStyle = { color: COLOR.inkSoft, fontFamily: FONTS.body };
 
   return (
     <div className="mx-auto max-w-lg rounded-2xl p-8" style={{ backgroundColor: COLOR.paper, border: `1px solid ${COLOR.roseSoft}` }}>
       <div className="flex items-center gap-2 mb-5">
         <PartyPopper size={20} style={{ color: COLOR.rose }} />
         <h4 className="text-2xl" style={{ fontFamily: FONTS.display, color: COLOR.roseDeep }}>
-          Cuéntanos de tu evento
+          {title}
         </h4>
       </div>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-xs uppercase tracking-wider mb-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-            Tipo de evento
-          </label>
+          <label className={labelClass} style={labelStyle}>Tipo de evento</label>
           <select
             value={form.tipo}
             onChange={(e) => setForm({ ...form, tipo: e.target.value })}
             className="w-full rounded-lg px-3 py-2 text-sm"
-            style={{ border: `1px solid ${COLOR.roseSoft}`, fontFamily: FONTS.body, color: COLOR.ink, backgroundColor: COLOR.cream }}
+            style={inputStyle}
           >
-            {PLANNER_SERVICES.map((s) => (
-              <option key={s.key} value={s.label}>{s.label}</option>
+            {options.map((label) => (
+              <option key={label} value={label}>{label}</option>
             ))}
           </select>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs uppercase tracking-wider mb-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-              Fecha tentativa
-            </label>
+            <label className={labelClass} style={labelStyle}>Nombre completo</label>
             <input
-              type="date" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })}
+              type="text" required placeholder="Tu nombre" value={form.nombre}
+              onChange={(e) => setForm({ ...form, nombre: e.target.value })}
               className="w-full rounded-lg px-3 py-2 text-sm"
-              style={{ border: `1px solid ${COLOR.roseSoft}`, fontFamily: FONTS.body, backgroundColor: COLOR.cream }}
+              style={inputStyle}
             />
           </div>
           <div>
-            <label className="block text-xs uppercase tracking-wider mb-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-              Invitados
-            </label>
+            <label className={labelClass} style={labelStyle}>Empresa (opcional)</label>
+            <input
+              type="text" placeholder="Si aplica" value={form.empresa}
+              onChange={(e) => setForm({ ...form, empresa: e.target.value })}
+              className="w-full rounded-lg px-3 py-2 text-sm"
+              style={inputStyle}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className={labelClass} style={labelStyle}>Teléfono</label>
+            <input
+              type="tel" required placeholder="33 1234 5678" value={form.telefono}
+              onChange={(e) => setForm({ ...form, telefono: e.target.value })}
+              className="w-full rounded-lg px-3 py-2 text-sm"
+              style={inputStyle}
+            />
+          </div>
+          <div>
+            <label className={labelClass} style={labelStyle}>Invitados</label>
             <input
               type="number" min={1} placeholder="Ej. 80" value={form.invitados}
               onChange={(e) => setForm({ ...form, invitados: e.target.value })}
               className="w-full rounded-lg px-3 py-2 text-sm"
-              style={{ border: `1px solid ${COLOR.roseSoft}`, fontFamily: FONTS.body, backgroundColor: COLOR.cream }}
+              style={inputStyle}
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs uppercase tracking-wider mb-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-            Cuéntanos más (opcional)
-          </label>
+          <label className={labelClass} style={labelStyle}>Fecha tentativa</label>
+          <input
+            type="date" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })}
+            className="w-full rounded-lg px-3 py-2 text-sm"
+            style={inputStyle}
+          />
+        </div>
+
+        <div>
+          <label className={labelClass} style={labelStyle}>Cuéntanos más (opcional)</label>
           <textarea
             rows={3} value={form.mensaje} onChange={(e) => setForm({ ...form, mensaje: e.target.value })}
             placeholder="Venue, estilo del evento, presupuesto aproximado..."
             className="w-full rounded-lg px-3 py-2 text-sm resize-none"
-            style={{ border: `1px solid ${COLOR.roseSoft}`, fontFamily: FONTS.body, backgroundColor: COLOR.cream }}
+            style={inputStyle}
           />
         </div>
 
@@ -1177,6 +1219,279 @@ function PlannerLeadForm() {
   );
 }
 
+// Página dedicada por servicio (Posadas, Kickoff) — existen aparte de /planner
+// porque Google Ads necesita un destino que responda exactamente a la búsqueda
+// ("posada empresarial guadalajara"), no la página genérica de Planner.
+function ServiceLandingPage({ headline, eyebrow, accent, heroImage, heroVideo, intro, bullets, galleryImages, defaultTipo, ctaTitle }) {
+  return (
+    <div>
+      <PageHero headline={headline} accent={accent} imageUrl={heroImage} videoUrl={heroVideo} />
+
+      <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-4 text-center">
+        <Eyebrow color={accent}>{eyebrow}</Eyebrow>
+        <p className="text-base max-w-lg mx-auto mt-4" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+          {intro}
+        </p>
+      </Reveal>
+
+      <section className="mx-auto max-w-3xl px-6 py-10">
+        <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+          {bullets.map((b) => (
+            <li key={b} className="flex items-start gap-2 text-sm" style={{ fontFamily: FONTS.body, color: COLOR.ink }}>
+              <Check size={16} className="mt-0.5 shrink-0" style={{ color: accent }} />
+              {b}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {galleryImages && galleryImages.length > 0 && (
+        <section className={`mx-auto max-w-5xl px-6 pb-16 grid gap-4 ${galleryImages.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
+          {galleryImages.map((g) => (
+            <PhotoPlaceholder
+              key={g.label}
+              label={g.label}
+              accent={accent}
+              imageUrl={g.src || null}
+              rounded
+              bordered={false}
+              hoverLift={false}
+              className={galleryImages.length === 1 ? "h-80 w-full" : "h-64 w-full"}
+            />
+          ))}
+        </section>
+      )}
+
+      <section className="px-6 py-16" style={{ backgroundColor: COLOR.creamDeep }}>
+        <div className="mx-auto max-w-lg text-center mb-8">
+          <h3 className="text-2xl sm:text-3xl uppercase" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
+            {ctaTitle}
+          </h3>
+        </div>
+        <PlannerLeadForm defaultTipo={defaultTipo} />
+      </section>
+    </div>
+  );
+}
+
+function PosadasEmpresarialesView() {
+  return (
+    <ServiceLandingPage
+      headline="La posada que tu equipo sí va a recordar"
+      eyebrow="Posadas empresariales"
+      accent={COLOR.rose}
+      heroImage={IMG_SERVICE_POSADA}
+      intro="Organizamos la fiesta de fin de año de tu empresa de principio a fin: salón, ambientación, entretenimiento y logística — para que tú también puedas disfrutar la noche con tu equipo, en vez de estar resolviendo pendientes."
+      bullets={[
+        "Producción completa: sonido, iluminación y escenografía",
+        "Coordinación de proveedores el día del evento",
+        "Manejo de invitaciones y confirmaciones",
+        "Opciones de entretenimiento en vivo",
+        "Presupuesto claro desde la primera cotización",
+        "Experiencia con grupos de 50 a 500+ personas",
+      ]}
+      galleryImages={[
+        { src: IMG_GALLERY_POSADA, label: "Posada empresarial" },
+        { src: IMG_SERVICE_POSADA, label: "Montaje de posada" },
+      ]}
+      defaultTipo="Posadas empresariales"
+      ctaTitle="Cuéntanos de tu posada"
+    />
+  );
+}
+
+function KickoffEmpresarialView() {
+  return (
+    <ServiceLandingPage
+      headline="Arranca el año con el pie derecho"
+      eyebrow="Kickoff empresarial"
+      accent={COLOR.blush}
+      heroImage={IMG_SERVICE_KICKOFF}
+      intro="Tu kickoff anual marca el tono del año para todo tu equipo. Nosotros armamos el evento — escenario, producción audiovisual, dinámica del día — para que el mensaje de liderazgo llegue con el impacto que merece."
+      bullets={[
+        "Escenario y producción audiovisual",
+        "Dinámicas de integración y reconocimientos",
+        "Coordinación directa con tu equipo de RH o Dirección",
+        "Locaciones en toda la Zona Metropolitana de Guadalajara",
+        "Igual de sólido para 80 que para 800 personas",
+        "Un solo punto de contacto de principio a fin",
+      ]}
+      galleryImages={[
+        { src: IMG_GALLERY_KICKOFF, label: "Kickoff empresarial" },
+        { src: IMG_SERVICE_KICKOFF, label: "Escenario de kickoff" },
+      ]}
+      defaultTipo="Kickoffs"
+      ctaTitle="Cuéntanos de tu kickoff"
+    />
+  );
+}
+
+function BodasView() {
+  return (
+    <ServiceLandingPage
+      headline="La boda que soñaste, sin el estrés de organizarla"
+      eyebrow="Bodas"
+      accent={COLOR.rose}
+      heroImage={null}
+      intro="Acompañamos cada boda desde la primera cita hasta el último baile: proveedores, tiempos, montaje y logística del día, para que tú solo tengas que disfrutar."
+      bullets={[
+        "Selección y coordinación de proveedores (banquete, decoración, música)",
+        "Cronograma detallado del día del evento",
+        "Presencia el día de la boda de inicio a fin",
+        "Opciones para bodas íntimas o de gran formato",
+        "Manejo de imprevistos sin que tú te enteres",
+        "Presupuesto claro desde la primera reunión",
+      ]}
+      galleryImages={[]}
+      defaultTipo="Bodas"
+      ctaTitle="Cuéntanos de tu boda"
+    />
+  );
+}
+
+function XVAnosView() {
+  return (
+    <ServiceLandingPage
+      headline="Una fiesta de XV que se sienta 100% suya"
+      eyebrow="XV años"
+      accent={COLOR.blush}
+      heroImage={null}
+      intro="Organizamos la transición que marca esta etapa: del vals a la pista de baile, cuidando el estilo, el presupuesto y cada detalle que la hace única."
+      bullets={[
+        "Asesoría de estilo y tendencias actuales",
+        "Coordinación de vals, protocolo y sorpresas",
+        "Selección de venue, banquete y decoración",
+        "Producción de audio, luces y animación",
+        "Timeline de la noche resuelto de principio a fin",
+        "Paquetes ajustables al número de invitados",
+      ]}
+      galleryImages={[]}
+      defaultTipo="15 años"
+      ctaTitle="Cuéntanos de la fiesta"
+    />
+  );
+}
+
+function AniversariosView() {
+  return (
+    <ServiceLandingPage
+      headline="Celebra lo que sea, como se merece"
+      eyebrow="Aniversarios y otros"
+      accent={COLOR.rose}
+      heroImage={IMG_SERVICE_OTROS}
+      intro="Bautizos, aniversarios, graduaciones, reuniones familiares — cualquier motivo para celebrar merece la misma atención al detalle que le damos a una boda o un evento corporativo."
+      bullets={[
+        "Eventos de cualquier tamaño, desde 20 hasta 500+ invitados",
+        "Locaciones en toda la Zona Metropolitana de Guadalajara",
+        "Decoración a la medida del motivo y el estilo que buscas",
+        "Coordinación de proveedores y logística del día",
+        "Opciones de catering, música y entretenimiento",
+        "Un punto de contacto de principio a fin",
+      ]}
+      galleryImages={[
+        { src: IMG_GALLERY_ANIVERSARIO, label: "Aniversario" },
+        { src: IMG_GALLERY_AIRE_LIBRE, label: "Celebración al aire libre" },
+      ]}
+      defaultTipo="Aniversarios y otros"
+      ctaTitle="Cuéntanos qué estás celebrando"
+    />
+  );
+}
+
+function ConvencionesView() {
+  return (
+    <ServiceLandingPage
+      headline="Congresos y convenciones sin sorpresas de logística"
+      eyebrow="Convenciones"
+      accent={COLOR.blush}
+      heroImage={IMG_HERO_PLANNER}
+      intro="Juntas anuales, congresos, capacitaciones de varios días — coordinamos la logística completa para que tu equipo se enfoque en el contenido, no en resolver imprevistos."
+      bullets={[
+        "Producción audiovisual y escenario",
+        "Coordinación de ponentes y agenda del evento",
+        "Logística de registro y acreditación de asistentes",
+        "Catering y coffee breaks integrados (con nuestra propia marca)",
+        "Locaciones para 50 hasta 1000+ asistentes",
+        "Un solo equipo responsable de principio a fin",
+      ]}
+      galleryImages={[{ src: IMG_GALLERY_VIP, label: "Convención empresarial" }]}
+      defaultTipo="Convenciones"
+      ctaTitle="Cuéntanos de tu convención"
+    />
+  );
+}
+
+// Página de contacto — compartida por las dos marcas, un solo formulario
+// (sección 0.3: "Formulario único, WhatsApp, ubicación de zona de cobertura").
+const CONTACT_SERVICE_OPTIONS = ["Coffee Break", ...PLANNER_SERVICES.map((s) => s.label)];
+
+function ContactoView() {
+  return (
+    <div>
+      <PageHero headline="Hablemos de tu evento" accent={COLOR.ink} />
+
+      <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-4 text-center">
+        <Eyebrow color={COLOR.ink}>Contacto</Eyebrow>
+        <p className="text-base max-w-lg mx-auto mt-4" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+          Coffee Breaks y Event Planner son un mismo equipo — escríbenos aquí sin importar cuál de los dos necesitas, y te contestamos directo por WhatsApp.
+        </p>
+        <p className="text-sm max-w-md mx-auto mt-3" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+          Atendemos toda la Zona Metropolitana de Guadalajara, con disponibilidad para eventos en el resto de Jalisco.
+        </p>
+      </Reveal>
+
+      <section className="mx-auto max-w-3xl px-6 pb-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <Reveal delay={0.05}>
+          <a
+            href={waLink("Hola, quiero información sobre los paquetes de Coffee Break.")}
+            target="_blank" rel="noopener noreferrer"
+            className="flex flex-col items-center text-center gap-3 rounded-2xl p-6 h-full transition-transform hover:-translate-y-1"
+            style={{ backgroundColor: COLOR.blushSoft, border: `1px solid ${COLOR.blushSoft}` }}
+          >
+            <img src={LOGO_COFFEE} alt="Ale García Coffee Break" className="h-16 w-auto" />
+            <p className="text-xs" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+              Café, panadería y servicio para juntas y eventos corporativos.
+            </p>
+            <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: COLOR.blushDeep }}>
+              Escribir por WhatsApp <ArrowRight size={14} />
+            </span>
+          </a>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <a
+            href={waLink("Hola, quiero información sobre organización de eventos con Ale García Planner.")}
+            target="_blank" rel="noopener noreferrer"
+            className="flex flex-col items-center text-center gap-3 rounded-2xl p-6 h-full transition-transform hover:-translate-y-1"
+            style={{ backgroundColor: COLOR.roseSoft, border: `1px solid ${COLOR.roseSoft}` }}
+          >
+            <img src={LOGO_PLANNER} alt="Ale García Event Planner" className="h-16 w-auto" />
+            <p className="text-xs" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+              Bodas, XV años, posadas empresariales, kickoffs y más.
+            </p>
+            <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] font-semibold" style={{ color: COLOR.roseDeep }}>
+              Escribir por WhatsApp <ArrowRight size={14} />
+            </span>
+          </a>
+        </Reveal>
+      </section>
+
+      <section className="px-6 py-16" style={{ backgroundColor: COLOR.creamDeep }}>
+        <div className="mx-auto max-w-lg text-center mb-8">
+          <h3 className="text-2xl sm:text-3xl uppercase" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
+            O cuéntanos aquí directo
+          </h3>
+        </div>
+        <PlannerLeadForm
+          serviceOptions={CONTACT_SERVICE_OPTIONS}
+          defaultTipo="Coffee Break"
+          title="Escríbenos"
+          waIntro="Hola, vengo de la página de contacto de Ale García Events."
+        />
+      </section>
+    </div>
+  );
+}
+
 function PlannerView() {
   return (
     <div>
@@ -1185,10 +1500,10 @@ function PlannerView() {
       <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-14 text-center">
         <Eyebrow color={COLOR.rose}>Planner</Eyebrow>
         <h3 className="text-2xl sm:text-3xl uppercase mb-3" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-          De la idea a la fiesta
+          El detalle nunca es un detalle
         </h3>
         <p className="text-sm max-w-md mx-auto" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-          Organización integral de tu evento, social o corporativo: de la idea al último detalle del día.
+          Organizamos tu evento social o corporativo cuidando cada decisión, por pequeña que parezca — de la primera idea al último brindis.
         </p>
       </Reveal>
 
@@ -1198,51 +1513,64 @@ function PlannerView() {
           {PLANNER_SERVICES.map((s, i) => {
             const accent = i % 2 === 0 ? COLOR.rose : COLOR.blush;
             const hasPhoto = !!s.image;
+            const cardInner = (
+              <>
+                <PhotoPlaceholder
+                  label={`Foto: ${s.label}`}
+                  accent={accent}
+                  rounded={false}
+                  bordered={false}
+                  hoverLift={false}
+                  imageUrl={s.image || null}
+                  className="w-full transition-transform duration-500 group-hover:scale-105"
+                  style={{ backgroundColor: COLOR.creamDeep, minHeight: "320px" }}
+                />
+                {hasPhoto && (
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(180deg, rgba(28,27,26,0) 45%, rgba(28,27,26,0.82) 100%)" }}
+                  />
+                )}
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                  <span
+                    className="block text-[10px] uppercase tracking-[0.25em] mb-1"
+                    style={{ fontFamily: FONTS.mono, color: hasPhoto ? "rgba(255,255,255,0.75)" : COLOR.inkSoft }}
+                  >
+                    ZMG
+                  </span>
+                  <h4 className="text-xl sm:text-2xl uppercase mb-1 leading-tight" style={{ fontFamily: FONTS.display, color: hasPhoto ? "#fff" : COLOR.ink }}>
+                    {s.label}
+                  </h4>
+                  <p className="text-xs sm:text-sm mb-3 max-w-xs" style={{ color: hasPhoto ? "rgba(255,255,255,0.85)" : COLOR.inkSoft, fontFamily: FONTS.body }}>
+                    {s.blurb}
+                  </p>
+                  <span
+                    className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 group-hover:gap-2.5"
+                    style={{ color: hasPhoto ? "#fff" : COLOR.roseDeep }}
+                  >
+                    {s.route ? "Ver más" : "Cotizar"} <ArrowRight size={14} />
+                  </span>
+                </div>
+              </>
+            );
             return (
               <Reveal key={s.key} delay={i * 0.08}>
-                <a
-                  href={waLink(`Hola, quiero cotizar ${s.label}.`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative block w-full overflow-hidden rounded-xl"
-                >
-                  <PhotoPlaceholder
-                    label={`Foto: ${s.label}`}
-                    accent={accent}
-                    rounded={false}
-                    bordered={false}
-                    hoverLift={false}
-                    imageUrl={s.image || null}
-                    className="w-full transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundColor: COLOR.creamDeep, minHeight: "320px" }}
-                  />
-                  {hasPhoto && (
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{ background: "linear-gradient(180deg, rgba(28,27,26,0) 45%, rgba(28,27,26,0.82) 100%)" }}
-                    />
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                    <span
-                      className="block text-[10px] uppercase tracking-[0.25em] mb-1"
-                      style={{ fontFamily: FONTS.mono, color: hasPhoto ? "rgba(255,255,255,0.75)" : COLOR.inkSoft }}
-                    >
-                      ZMG
-                    </span>
-                    <h4 className="text-xl sm:text-2xl uppercase mb-1 leading-tight" style={{ fontFamily: FONTS.display, color: hasPhoto ? "#fff" : COLOR.ink }}>
-                      {s.label}
-                    </h4>
-                    <p className="text-xs sm:text-sm mb-3 max-w-xs" style={{ color: hasPhoto ? "rgba(255,255,255,0.85)" : COLOR.inkSoft, fontFamily: FONTS.body }}>
-                      {s.blurb}
-                    </p>
-                    <span
-                      className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 group-hover:gap-2.5"
-                      style={{ color: hasPhoto ? "#fff" : COLOR.roseDeep }}
-                    >
-                      Cotizar <ArrowRight size={14} />
-                    </span>
-                  </div>
-                </a>
+                {/* Posadas y Kickoffs ya tienen página propia (para Google Ads);
+                    el resto sigue yendo directo a WhatsApp. */}
+                {s.route ? (
+                  <Link to={s.route} className="group relative block w-full overflow-hidden rounded-xl">
+                    {cardInner}
+                  </Link>
+                ) : (
+                  <a
+                    href={waLink(`Hola, quiero cotizar ${s.label}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative block w-full overflow-hidden rounded-xl"
+                  >
+                    {cardInner}
+                  </a>
+                )}
               </Reveal>
             );
           })}
@@ -1254,7 +1582,7 @@ function PlannerView() {
         <div className="mx-auto max-w-5xl">
           <Eyebrow color={COLOR.rose}>Cómo trabajamos</Eyebrow>
           <h3 className="text-3xl sm:text-4xl uppercase mb-10 max-w-md" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-            Tres pasos, un solo responsable
+            Tú pones la idea, nosotros el resto
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6">
             {PLANNER_PROCESS.map((p, i) => (
@@ -1305,6 +1633,12 @@ function AppShell() {
 
   const fabMessage = useMemo(() => {
     if (pathname === "/coffee-breaks") return "Hola, quiero información sobre los paquetes de Coffee Break.";
+    if (pathname === "/posadas-empresariales") return "Hola, quiero información sobre la posada empresarial de mi equipo.";
+    if (pathname === "/kickoff-empresarial") return "Hola, quiero información sobre nuestro kickoff empresarial.";
+    if (pathname === "/bodas") return "Hola, quiero información sobre organización de bodas.";
+    if (pathname === "/xv-anos") return "Hola, quiero información sobre organización de XV años.";
+    if (pathname === "/aniversarios") return "Hola, quiero información sobre organización de un evento.";
+    if (pathname === "/convenciones") return "Hola, quiero información sobre organización de una convención o congreso.";
     if (pathname === "/planner") return "Hola, quiero información sobre organización de eventos con Ale García Planner.";
     return "Hola, quiero más información sobre Ale García Events.";
   }, [pathname]);
@@ -1385,8 +1719,13 @@ function AppShell() {
           <Route path="/" element={<HomeView />} />
           <Route path="/coffee-breaks" element={<CoffeeBreaksView />} />
           <Route path="/planner" element={<PlannerView />} />
-          {/* TODO (paso 2 de la estrategia): agregar aquí /posadas-empresariales,
-              /kickoff-empresarial y /contacto como páginas propias — hoy caen al catch-all. */}
+          <Route path="/posadas-empresariales" element={<PosadasEmpresarialesView />} />
+          <Route path="/kickoff-empresarial" element={<KickoffEmpresarialView />} />
+          <Route path="/bodas" element={<BodasView />} />
+          <Route path="/xv-anos" element={<XVAnosView />} />
+          <Route path="/aniversarios" element={<AniversariosView />} />
+          <Route path="/convenciones" element={<ConvencionesView />} />
+          <Route path="/contacto" element={<ContactoView />} />
           <Route path="*" element={<HomeView />} />
         </Routes>
       </ViewTransition>
