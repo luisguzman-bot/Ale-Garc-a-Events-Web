@@ -59,6 +59,9 @@ const IMG_HERO_COFFEE = null; // TODO (Ale García): foto de portada de Coffee B
 const VIDEO_HERO_COFFEE = "/videos/coffee-hero.mp4"; // Video del acomodo de bebidas que subiste
 const VIDEO_HERO_PLANNER = "/videos/planner-hero.mp4"; // Video del evento nocturno (mesas y candelabros) que subiste
 const IMG_HERO_PLANNER = "/images/hero-planner.jpg";
+const IMG_TIER_BASICO = "/images/tier-basico.jpg";
+const IMG_TIER_ESTANDAR = "/images/tier-estandar.jpg";
+const IMG_TIER_VIP = "/images/tier-vip.jpg";
 // Fotos de las tarjetas de servicio de Planner:
 const IMG_SERVICE_POSADA = "/images/service-posada.jpg";
 const IMG_SERVICE_KICKOFF = "/images/service-kickoff.jpg";
@@ -118,6 +121,7 @@ const PRICING = {
   basico: {
     label: "Básico",
     tagline: "La base de un buen coffee break",
+    image: IMG_TIER_BASICO,
     chico: { 2: 90, 4: 120, 8: 180 },
     mediano: { 2: 80, 4: 110, 8: 160 },
     grande: { 2: 70, 4: 100, 8: 160 },
@@ -125,6 +129,7 @@ const PRICING = {
   estandar: {
     label: "Estándar",
     tagline: "Más variedad, más presencia en mesa",
+    image: IMG_TIER_ESTANDAR,
     chico: { 2: 150, 4: 180, 8: 260 },
     mediano: { 2: 130, 4: 170, 8: 240 },
     grande: { 2: 130, 4: 160, 8: 240 },
@@ -132,6 +137,7 @@ const PRICING = {
   vip: {
     label: "VIP",
     tagline: "Café de especialidad y vajilla de presentación",
+    image: IMG_TIER_VIP,
     chico: { 2: 170, 4: 230, 8: 360 },
     mediano: { 2: 160, 4: 220, 8: 340 },
     grande: { 2: 150, 4: 220, 8: 340 },
@@ -887,6 +893,7 @@ function TierCard({ tierKey, tier, selected, onSelect }) {
       <PhotoPlaceholder
         label={`Foto: montaje Nivel ${tier.label}`}
         accent={selected ? COLOR.paper : COLOR.blush}
+        imageUrl={tier.image || null}
         rounded={false}
         bordered={false}
         hoverLift={false}
