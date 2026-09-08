@@ -62,6 +62,8 @@ const IMG_HERO_PLANNER = "/images/hero-planner.jpg";
 const IMG_TIER_BASICO = "/images/tier-basico.jpg";
 const IMG_TIER_ESTANDAR = "/images/tier-estandar.jpg";
 const IMG_TIER_VIP = "/images/tier-vip.jpg";
+const IMG_GALLERY_BODA = "/images/gallery-boda.jpg";
+const IMG_GALLERY_XV = "/images/gallery-xv.jpg";
 // Fotos de las tarjetas de servicio de Planner:
 const IMG_SERVICE_POSADA = "/images/service-posada.jpg";
 const IMG_SERVICE_KICKOFF = "/images/service-kickoff.jpg";
@@ -446,10 +448,10 @@ const IMG_GALLERY_KICKOFF = "/images/gallery-kickoff.jpg";
 const IMG_GALLERY_VIP = "/images/gallery-vip.jpg";
 
 const GALLERY_ITEMS = [
-  { label: "Coffee break corporativo", image: null },
-  { label: "Boda", image: null },
+  { label: "Coffee break corporativo", image: IMG_TIER_VIP },
+  { label: "Boda", image: IMG_GALLERY_BODA },
   { label: "Posada empresarial", image: IMG_GALLERY_POSADA },
-  { label: "XV años", image: null },
+  { label: "XV años", image: IMG_GALLERY_XV },
   { label: "Aniversario de empresa", image: IMG_GALLERY_ANIVERSARIO },
   { label: "Kickoff de año nuevo", image: IMG_GALLERY_KICKOFF },
   { label: "Montaje nivel VIP", image: IMG_GALLERY_VIP },
