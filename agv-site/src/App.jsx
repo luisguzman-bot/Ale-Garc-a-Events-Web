@@ -58,12 +58,16 @@ const IMG_HERO_COFFEE = null; // TODO (Ale García): foto de portada de Coffee B
 // degradado animado — en cuanto subas un video, reemplaza el null y se activa solo.
 const VIDEO_HERO_COFFEE = "/videos/coffee-hero.mp4"; // Video del acomodo de bebidas que subiste
 const VIDEO_HERO_PLANNER = "/videos/planner-hero.mp4"; // Video del evento nocturno (mesas y candelabros) que subiste
+const VIDEO_HERO_CONTACTO = "/videos/contacto-hero.mp4"; // Dron + terraza + banquete + invitados
+const VIDEO_HERO_POSADAS = "/videos/posadas-hero.mp4"; // Pista y luces del evento nocturno
+const VIDEO_HERO_ANIVERSARIOS = "/videos/aniversarios-hero.mp4"; // Banda en vivo del 15 Aniversario
 const IMG_HERO_PLANNER = "/images/hero-planner.jpg";
 const IMG_TIER_BASICO = "/images/tier-basico.jpg";
 const IMG_TIER_ESTANDAR = "/images/tier-estandar.jpg";
 const IMG_TIER_VIP = "/images/tier-vip.jpg";
 const IMG_GALLERY_BODA = "/images/gallery-boda.jpg";
 const IMG_GALLERY_XV = "/images/gallery-xv.jpg";
+const IMG_KICKOFF_CONFERENCE = "/images/kickoff-conference.jpg";
 // Fotos de las tarjetas de servicio de Planner:
 const IMG_SERVICE_POSADA = "/images/service-posada.jpg";
 const IMG_SERVICE_KICKOFF = "/images/service-kickoff.jpg";
@@ -1290,6 +1294,7 @@ function PosadasEmpresarialesView() {
       eyebrow="Posadas empresariales"
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_POSADA}
+      heroVideo={VIDEO_HERO_POSADAS}
       intro="Organizamos la fiesta de fin de año de tu empresa de principio a fin: salón, ambientación, entretenimiento y logística — para que tú también puedas disfrutar la noche con tu equipo, en vez de estar resolviendo pendientes."
       bullets={[
         "Producción completa: sonido, iluminación y escenografía",
@@ -1326,7 +1331,7 @@ function KickoffEmpresarialView() {
         "Un solo punto de contacto de principio a fin",
       ]}
       galleryImages={[
-        { src: IMG_GALLERY_KICKOFF, label: "Kickoff empresarial" },
+        { src: IMG_KICKOFF_CONFERENCE, label: "Kickoff empresarial" },
         { src: IMG_SERVICE_KICKOFF, label: "Escenario de kickoff" },
       ]}
       defaultTipo="Kickoffs"
@@ -1388,6 +1393,7 @@ function AniversariosView() {
       eyebrow="Aniversarios y otros"
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_OTROS}
+      heroVideo={VIDEO_HERO_ANIVERSARIOS}
       intro="Bautizos, aniversarios, graduaciones, reuniones familiares — cualquier motivo para celebrar merece la misma atención al detalle que le damos a una boda o un evento corporativo."
       bullets={[
         "Eventos de cualquier tamaño, desde 20 hasta 500+ invitados",
@@ -1437,7 +1443,7 @@ const CONTACT_SERVICE_OPTIONS = ["Coffee Break", ...PLANNER_SERVICES.map((s) => 
 function ContactoView() {
   return (
     <div>
-      <PageHero headline="Hablemos de tu evento" accent={COLOR.ink} />
+      <PageHero headline="Hablemos de tu evento" accent={COLOR.ink} videoUrl={VIDEO_HERO_CONTACTO} />
 
       <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-4 text-center">
         <Eyebrow color={COLOR.ink}>Contacto</Eyebrow>
