@@ -61,6 +61,8 @@ const VIDEO_HERO_PLANNER = "/videos/planner-hero.mp4"; // Video del evento noctu
 const VIDEO_HERO_CONTACTO = "/videos/contacto-hero.mp4"; // Dron + terraza + banquete + invitados
 const VIDEO_HERO_POSADAS = "/videos/posadas-hero.mp4"; // Pista y luces del evento nocturno
 const VIDEO_HERO_ANIVERSARIOS = "/videos/aniversarios-hero.mp4"; // Banda en vivo del 15 Aniversario
+const VIDEO_HERO_XV = "/videos/xv-hero.mp4"; // Limusina, mesa de dulces, ceremonia al aire libre
+const VIDEO_HERO_CONVENCIONES = "/videos/convenciones-hero.mp4"; // Registro de invitados y resort
 const IMG_HERO_PLANNER = "/images/hero-planner.jpg";
 const IMG_TIER_BASICO = "/images/tier-basico.jpg";
 const IMG_TIER_ESTANDAR = "/images/tier-estandar.jpg";
@@ -1397,6 +1399,7 @@ function XVAnosView() {
       eyebrow="XV años"
       accent={COLOR.blush}
       heroImage={IMG_XV_BAILE}
+      heroVideo={VIDEO_HERO_XV}
       intro="Organizamos la transición que marca esta etapa: del vals a la pista de baile, cuidando el estilo, el presupuesto y cada detalle que la hace única."
       bullets={[
         "Asesoría de estilo y tendencias actuales",
@@ -1450,6 +1453,7 @@ function ConvencionesView() {
       eyebrow="Convenciones"
       accent={COLOR.blush}
       heroImage={IMG_CONVENCION_GRUPO}
+      heroVideo={VIDEO_HERO_CONVENCIONES}
       intro="Juntas anuales, congresos, capacitaciones de varios días — coordinamos la logística completa para que tu equipo se enfoque en el contenido, no en resolver imprevistos."
       bullets={[
         "Producción audiovisual y escenario",
