@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  MessageCircle, Check, ArrowRight, Users, Clock, Camera, Menu, X, Send,
+  MessageCircle, Check, ArrowRight, ArrowLeft, Users, Clock, Camera, Menu, X, Send,
   ChevronRight, PartyPopper, Instagram, Facebook,
 } from "lucide-react";
 
@@ -68,6 +68,10 @@ const IMG_TIER_VIP = "/images/tier-vip.jpg";
 const IMG_GALLERY_BODA = "/images/gallery-boda.jpg";
 const IMG_GALLERY_XV = "/images/gallery-xv.jpg";
 const IMG_KICKOFF_CONFERENCE = "/images/kickoff-conference.jpg";
+const IMG_BODA_BOSQUE = "/images/boda-bosque.jpg";
+const IMG_BODA_RECEPCION = "/images/boda-recepcion.jpg";
+const IMG_XV_BAILE = "/images/xv-baile.jpg";
+const IMG_XV_CEREMONIA = "/images/xv-ceremonia.jpg";
 // Fotos de las tarjetas de servicio de Planner:
 const IMG_SERVICE_POSADA = "/images/service-posada.jpg";
 const IMG_SERVICE_KICKOFF = "/images/service-kickoff.jpg";
@@ -180,8 +184,8 @@ const INCLUSIONS = {
 };
 
 const PLANNER_SERVICES = [
-  { key: "boda", label: "Bodas", blurb: "Desde la propuesta hasta el último baile, cada detalle cuidado.", image: null, route: "/bodas" },
-  { key: "xv", label: "15 años", blurb: "La fiesta que marca su transición, sin que a ti te falte nada.", image: null, route: "/xv-anos" },
+  { key: "boda", label: "Bodas", blurb: "Desde la propuesta hasta el último baile, cada detalle cuidado.", image: IMG_BODA_BOSQUE, route: "/bodas" },
+  { key: "xv", label: "15 años", blurb: "La fiesta que marca su transición, sin que a ti te falte nada.", image: IMG_XV_BAILE, route: "/xv-anos" },
   { key: "posada", label: "Posadas empresariales", blurb: "La fiesta de fin de año de tu equipo, resuelta de principio a fin.", image: IMG_SERVICE_POSADA, route: "/posadas-empresariales" },
   { key: "kickoff", label: "Kickoffs", blurb: "Arranca el año con un evento que marca el tono.", image: IMG_SERVICE_KICKOFF, route: "/kickoff-empresarial" },
   { key: "otro", label: "Aniversarios y otros", blurb: "Celebraciones a la medida, sin importar el motivo.", image: IMG_SERVICE_OTROS, route: "/aniversarios" },
@@ -535,6 +539,24 @@ function WhatsAppFAB({ message }) {
         Cotizar por WhatsApp
       </span>
     </a>
+  );
+}
+
+// Flechita fija arriba a la izquierda en todas las páginas menos Home
+// (desde Home no hay "atrás" natural dentro del sitio).
+function BackButton() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  if (pathname === "/") return null;
+  return (
+    <button
+      onClick={() => navigate(-1)}
+      aria-label="Regresar"
+      className="fixed top-5 left-5 z-50 flex items-center justify-center w-10 h-10 rounded-full shadow-md transition-transform hover:scale-105"
+      style={{ backgroundColor: COLOR.paper, border: `1px solid ${COLOR.creamDeep}` }}
+    >
+      <ArrowLeft size={18} style={{ color: COLOR.ink }} />
+    </button>
   );
 }
 
@@ -1346,7 +1368,7 @@ function BodasView() {
       headline="La boda que soñaste, sin el estrés de organizarla"
       eyebrow="Bodas"
       accent={COLOR.rose}
-      heroImage={null}
+      heroImage={IMG_BODA_BOSQUE}
       intro="Acompañamos cada boda desde la primera cita hasta el último baile: proveedores, tiempos, montaje y logística del día, para que tú solo tengas que disfrutar."
       bullets={[
         "Selección y coordinación de proveedores (banquete, decoración, música)",
@@ -1356,7 +1378,10 @@ function BodasView() {
         "Manejo de imprevistos sin que tú te enteres",
         "Presupuesto claro desde la primera reunión",
       ]}
-      galleryImages={[]}
+      galleryImages={[
+        { src: IMG_BODA_BOSQUE, label: "Boda" },
+        { src: IMG_BODA_RECEPCION, label: "Recepción" },
+      ]}
       defaultTipo="Bodas"
       ctaTitle="Cuéntanos de tu boda"
     />
@@ -1369,7 +1394,7 @@ function XVAnosView() {
       headline="Una fiesta de XV que se sienta 100% suya"
       eyebrow="XV años"
       accent={COLOR.blush}
-      heroImage={null}
+      heroImage={IMG_XV_BAILE}
       intro="Organizamos la transición que marca esta etapa: del vals a la pista de baile, cuidando el estilo, el presupuesto y cada detalle que la hace única."
       bullets={[
         "Asesoría de estilo y tendencias actuales",
@@ -1379,7 +1404,10 @@ function XVAnosView() {
         "Timeline de la noche resuelto de principio a fin",
         "Paquetes ajustables al número de invitados",
       ]}
-      galleryImages={[]}
+      galleryImages={[
+        { src: IMG_XV_BAILE, label: "XV años" },
+        { src: IMG_XV_CEREMONIA, label: "Ceremonia" },
+      ]}
       defaultTipo="15 años"
       ctaTitle="Cuéntanos de la fiesta"
     />
@@ -1727,6 +1755,7 @@ function AppShell() {
         }
       `}</style>
 
+      <BackButton />
       <NavBar />
 
       <ViewTransition viewKey={pathname}>
