@@ -72,6 +72,8 @@ const IMG_BODA_BOSQUE = "/images/boda-bosque.jpg";
 const IMG_BODA_RECEPCION = "/images/boda-recepcion.jpg";
 const IMG_XV_BAILE = "/images/xv-baile.jpg";
 const IMG_XV_CEREMONIA = "/images/xv-ceremonia.jpg";
+const IMG_CONVENCION_GRUPO = "/images/convencion-grupo.jpg";
+const IMG_CONVENCION_CASCADA = "/images/convencion-cascada.jpg";
 // Fotos de las tarjetas de servicio de Planner:
 const IMG_SERVICE_POSADA = "/images/service-posada.jpg";
 const IMG_SERVICE_KICKOFF = "/images/service-kickoff.jpg";
@@ -189,7 +191,7 @@ const PLANNER_SERVICES = [
   { key: "posada", label: "Posadas empresariales", blurb: "La fiesta de fin de año de tu equipo, resuelta de principio a fin.", image: IMG_SERVICE_POSADA, route: "/posadas-empresariales" },
   { key: "kickoff", label: "Kickoffs", blurb: "Arranca el año con un evento que marca el tono.", image: IMG_SERVICE_KICKOFF, route: "/kickoff-empresarial" },
   { key: "otro", label: "Aniversarios y otros", blurb: "Celebraciones a la medida, sin importar el motivo.", image: IMG_SERVICE_OTROS, route: "/aniversarios" },
-  { key: "convencion", label: "Convenciones", blurb: "Juntas y congresos de gran formato, con logística que no se nota — solo funciona.", image: null, route: "/convenciones" },
+  { key: "convencion", label: "Convenciones", blurb: "Juntas y congresos de gran formato, con logística que no se nota — solo funciona.", image: IMG_CONVENCION_GRUPO, route: "/convenciones" },
 ];
 
 // TODO (Ale García): revisar/ajustar esta descripción de las 3 etapas de trabajo — texto borrador.
@@ -1447,7 +1449,7 @@ function ConvencionesView() {
       headline="Congresos y convenciones sin sorpresas de logística"
       eyebrow="Convenciones"
       accent={COLOR.blush}
-      heroImage={IMG_HERO_PLANNER}
+      heroImage={IMG_CONVENCION_GRUPO}
       intro="Juntas anuales, congresos, capacitaciones de varios días — coordinamos la logística completa para que tu equipo se enfoque en el contenido, no en resolver imprevistos."
       bullets={[
         "Producción audiovisual y escenario",
@@ -1457,7 +1459,10 @@ function ConvencionesView() {
         "Locaciones para 50 hasta 1000+ asistentes",
         "Un solo equipo responsable de principio a fin",
       ]}
-      galleryImages={[{ src: IMG_GALLERY_VIP, label: "Convención empresarial" }]}
+      galleryImages={[
+        { src: IMG_CONVENCION_GRUPO, label: "Convención empresarial" },
+        { src: IMG_CONVENCION_CASCADA, label: "Team building" },
+      ]}
       defaultTipo="Convenciones"
       ctaTitle="Cuéntanos de tu convención"
     />
