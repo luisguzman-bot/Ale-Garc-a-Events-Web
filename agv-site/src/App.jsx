@@ -76,16 +76,17 @@ const IMG_XV_BAILE = "/images/xv-baile.jpg";
 const IMG_XV_CEREMONIA = "/images/xv-ceremonia.jpg";
 const IMG_CONVENCION_GRUPO = "/images/convencion-grupo.jpg";
 const IMG_CONVENCION_CASCADA = "/images/convencion-cascada.jpg";
+const IMG_CONVENCION_NOCHE = "/images/convencion-noche.jpg";
 // Fotos de las tarjetas de servicio de Planner:
 const IMG_SERVICE_POSADA = "/images/service-posada.jpg";
 const IMG_SERVICE_KICKOFF = "/images/service-kickoff.jpg";
 const IMG_SERVICE_OTROS = "/images/service-otros.jpg";
 
 const SOCIAL_LINKS = {
-  instagramCoffee: "https://instagram.com/alegarciacoffeebreak", // TODO: usuario real de Instagram — Coffee Breaks
-  instagramPlanner: "https://instagram.com/alegarciaplanner", // TODO: usuario real de Instagram — Event Planner
-  facebookCoffee: "https://facebook.com/alegarciacoffeebreak", // TODO: página real de Facebook — Coffee Breaks
-  facebookPlanner: "https://facebook.com/alegarciaplanner", // TODO: página real de Facebook — Event Planner
+  instagramCoffee: "https://www.instagram.com/alegarcia.coffeebreaks/?hl=es-la",
+  instagramPlanner: "https://www.instagram.com/alegarcia.eventplanner/?hl=es-la",
+  facebookCoffee: "https://www.facebook.com/profile.php?id=61594025650852",
+  facebookPlanner: "https://www.facebook.com/profile.php?id=61594002117994",
 };
 
 const TESTIMONIALS = [
@@ -129,61 +130,81 @@ const VISION_MISION_VALORES = [
 // Debajo de 200, el sitio calcula y muestra precio. A partir de 200, pide
 // cotización directa por WhatsApp — igual que se pidió para 100 en la
 // primera versión, ahora extendido a 200 con el rango "Grande" ya cotizado.
-const QUOTE_THRESHOLD = 200;
+const QUOTE_THRESHOLD = 1000; // límite superior de la tabla de precios — arriba de esto, cotización a la medida
 
 const PRICING = {
-  basico: {
-    label: "Básico",
+  essential: {
+    label: "Essential",
     tagline: "La base de un buen coffee break",
     image: IMG_TIER_BASICO,
-    chico: { 2: 90, 4: 120, 8: 180 },
-    mediano: { 2: 80, 4: 110, 8: 160 },
-    grande: { 2: 70, 4: 100, 8: 160 },
+    chico: { 2: 160, 4: 210, 8: 290 },
+    mediano: { 2: 145, 4: 195, 8: 275 },
+    grande: { 2: 135, 4: 185, 8: 260 },
+    extraGrande: { 2: 130, 4: 175, 8: 250 },
+    corporativo: { 2: 125, 4: 170, 8: 240 },
+    mega: { 2: 120, 4: 165, 8: 235 },
   },
-  estandar: {
-    label: "Estándar",
+  executive: {
+    label: "Executive",
     tagline: "Más variedad, más presencia en mesa",
     image: IMG_TIER_ESTANDAR,
-    chico: { 2: 150, 4: 180, 8: 260 },
-    mediano: { 2: 130, 4: 170, 8: 240 },
-    grande: { 2: 130, 4: 160, 8: 240 },
+    chico: { 2: 230, 4: 295, 8: 395 },
+    mediano: { 2: 215, 4: 280, 8: 380 },
+    grande: { 2: 205, 4: 270, 8: 365 },
+    extraGrande: { 2: 195, 4: 260, 8: 350 },
+    corporativo: { 2: 190, 4: 250, 8: 340 },
+    mega: { 2: 185, 4: 245, 8: 335 },
   },
-  vip: {
-    label: "VIP",
-    tagline: "Café de especialidad y vajilla de presentación",
+  premium: {
+    label: "Premium Experience",
+    tagline: "Café de especialidad y una experiencia de servicio superior",
     image: IMG_TIER_VIP,
-    chico: { 2: 170, 4: 230, 8: 360 },
-    mediano: { 2: 160, 4: 220, 8: 340 },
-    grande: { 2: 150, 4: 220, 8: 340 },
+    chico: { 2: 310, 4: 395, 8: 525 },
+    mediano: { 2: 295, 4: 380, 8: 505 },
+    grande: { 2: 285, 4: 365, 8: 490 },
+    extraGrande: { 2: 275, 4: 355, 8: 475 },
+    corporativo: { 2: 265, 4: 345, 8: 460 },
+    mega: { 2: 255, 4: 335, 8: 450 },
   },
 };
 
+// Mínimo de contratación por evento, independiente de cuánto dé el cálculo
+// por persona — si el cálculo cae por debajo, se cobra este mínimo.
+const MINIMUM_ORDER = { essential: 6000, executive: 8000, premium: 10000 };
+
 const INCLUSIONS = {
-  basico: [
-    "Café normal y descafeinado",
+  essential: [
+    "Café premium normal y descafeinado",
     "Té en variedad de sobres",
     "Agua natural",
     "Azúcar, mascabado y sustitutos",
+    "Coffee Mate / crema para café",
     "Galletas finas",
-    "Vasos y servilletas desechables",
+    "Vasos térmicos con tapa y servilletas desechables",
+    "Montaje funcional y reposición durante el horario contratado",
+    "Personal operativo según número de asistentes",
   ],
-  estandar: [
-    "Todo lo del nivel Básico",
+  executive: [
+    "Todo lo de Essential",
     "Pan dulce variado",
-    "Fruta de temporada",
-    "Jugos y refrescos",
+    "Fruta fresca de temporada",
+    "Refrescos y/o aguas minerales",
     "Variedad ampliada de tés",
-    "1 empanada garantizada por persona",
+    "Aguas infusionadas",
+    "1 pieza salada garantizada por persona (empanada, cuernito, bollito o equivalente)",
+    "Presentación mejorada en charolas y vajilla de servicio",
   ],
-  vip: [
-    "Todo lo del nivel Estándar",
-    "1 cuernito relleno (jamón y queso) garantizado por persona",
-    "Tisanas",
-    "Aguas fusionadas / saborizadas premium",
-    "Tartaletas",
-    "Café de especialidad",
-    "Vajilla de presentación",
-    "Personalización de marca del cliente incluida",
+  premium: [
+    "Todo lo de Executive",
+    "2 piezas saladas garantizadas por persona (combinación de opciones premium)",
+    "Tisanas premium",
+    "Aguas infusionadas / saborizadas premium",
+    "Tartaletas, petit fours o postre fino surtido",
+    "Selección premium de café",
+    "Fruta fresca con presentación especial",
+    "Vajilla de presentación premium",
+    "Personalización básica de señalética de marca incluida",
+    "En servicios de 8 horas: hasta 3 momentos de servicio y reposición planeados",
   ],
 };
 
@@ -209,15 +230,19 @@ const PLANNER_PROCESS = [
 // ---------------------------------------------------------------------------
 function getBracket(people) {
   if (people < 20) return null;
-  if (people <= 50) return "chico";
-  if (people < 100) return "mediano";
-  if (people < QUOTE_THRESHOLD) return "grande";
-  return "cotizacion"; // 200+ => cotización personalizada, sin precio visible
+  if (people < 50) return "chico"; // 20 a 49
+  if (people < 100) return "mediano"; // 50 a 99
+  if (people < 200) return "grande"; // 100 a 199
+  if (people < 400) return "extraGrande"; // 200 a 399
+  if (people < 700) return "corporativo"; // 400 a 699
+  if (people <= QUOTE_THRESHOLD) return "mega"; // 700 a 1,000
+  return "cotizacion"; // 1,001+ => cotización personalizada, sin precio visible
 }
 
 function getPricePerPerson(tier, people, duration) {
   const bracket = getBracket(people);
-  if (bracket !== "chico" && bracket !== "mediano" && bracket !== "grande") return null;
+  const validBrackets = ["chico", "mediano", "grande", "extraGrande", "corporativo", "mega"];
+  if (!validBrackets.includes(bracket)) return null;
   return PRICING[tier][bracket][duration];
 }
 
@@ -970,7 +995,12 @@ function ReceiptTicket({ tierKey, people, duration }) {
   const tier = PRICING[tierKey];
   const bracket = getBracket(people);
   const pricePerPerson = getPricePerPerson(tierKey, people, duration);
-  const total = pricePerPerson ? pricePerPerson * people : null;
+  const rawTotal = pricePerPerson ? pricePerPerson * people : null;
+  const minimum = MINIMUM_ORDER[tierKey];
+  // El total nunca baja del mínimo de contratación del nivel, aunque el
+  // cálculo por persona dé menos (grupos chicos en niveles altos, por ejemplo).
+  const belowMinimum = rawTotal !== null && rawTotal < minimum;
+  const total = rawTotal !== null ? Math.max(rawTotal, minimum) : null;
 
   const needsQuote = bracket === "cotizacion";
   const belowMin = bracket === null;
@@ -1013,11 +1043,16 @@ function ReceiptTicket({ tierKey, people, duration }) {
               <div className="flex justify-between"><span>Precio / persona</span><span>{money(pricePerPerson)}</span></div>
               <div className="border-t border-dashed my-2" style={{ borderColor: COLOR.blushSoft }} />
               <div className="flex justify-between text-lg font-bold"><span>Total</span><span>{money(animatedTotal)}</span></div>
+              {belowMinimum && (
+                <p className="text-xs leading-relaxed pt-1" style={{ color: COLOR.roseDeep, fontFamily: FONTS.body }}>
+                  Este nivel tiene un mínimo de contratación de {money(minimum)} por evento — el total ya lo refleja.
+                </p>
+              )}
             </>
           )}
           {needsQuote && (
             <p className="text-xs leading-relaxed" style={{ color: COLOR.roseDeep, fontFamily: FONTS.body }}>
-              Para grupos de {QUOTE_THRESHOLD} personas o más, tu coffee break se cotiza a la medida — sin precio de tabla.
+              Para grupos de más de {QUOTE_THRESHOLD.toLocaleString("es-MX")} personas, tu coffee break se cotiza a la medida — sin precio de tabla.
               Escríbenos y te respondemos con una propuesta.
             </p>
           )}
@@ -1049,7 +1084,7 @@ function ReceiptTicket({ tierKey, people, duration }) {
 }
 
 function CoffeeBreaksView() {
-  const [tierKey, setTierKey] = useState("estandar");
+  const [tierKey, setTierKey] = useState("executive");
   const [people, setPeople] = useState(50);
   const [duration, setDuration] = useState(4);
 
@@ -1060,13 +1095,19 @@ function CoffeeBreaksView() {
         Tres niveles, un mismo estándar de servicio. Elige el que va con tu evento y arma tu cotización al instante.
       </p>
 
-      <section className="mx-auto max-w-6xl px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+      <section className="mx-auto max-w-6xl px-6 pt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
         {Object.entries(PRICING).map(([key, tier], i) => (
           <Reveal key={key} delay={i * 0.08}>
             <TierCard tierKey={key} tier={tier} selected={tierKey === key} onSelect={setTierKey} />
           </Reveal>
         ))}
       </section>
+      <p className="max-w-3xl mx-auto text-xs text-center px-6 pt-3 pb-2" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+        Las imágenes son de referencia visual — el acomodo, la decoración y los alimentos pueden variar según el evento y el paquete contratado.
+      </p>
+      <p className="max-w-3xl mx-auto text-xs text-center px-6 pb-10" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+        Mínimo de contratación por evento: Essential {money(MINIMUM_ORDER.essential)} · Executive {money(MINIMUM_ORDER.executive)} · Premium Experience {money(MINIMUM_ORDER.premium)}.
+      </p>
 
       <section className="px-6 py-14" style={{ backgroundColor: COLOR.creamDeep }}>
         <Reveal>
@@ -1082,7 +1123,7 @@ function CoffeeBreaksView() {
                 <Users size={14} /> Número de personas
               </label>
               <input
-                type="range" min={20} max={800} step={10} value={people}
+                type="range" min={20} max={1000} step={10} value={people}
                 onChange={(e) => setPeople(Number(e.target.value))}
                 className="w-full"
                 style={{ accentColor: COLOR.blushDeep }}
@@ -1090,7 +1131,7 @@ function CoffeeBreaksView() {
               <div className="flex justify-between text-xs mt-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.mono }}>
                 <span>20</span>
                 <span className="text-base font-bold" style={{ color: COLOR.ink }}>{people} personas</span>
-                <span>800</span>
+                <span>1,000</span>
               </div>
             </div>
 
@@ -1118,8 +1159,8 @@ function CoffeeBreaksView() {
             </div>
 
             <p className="text-xs leading-relaxed" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-              Los precios de tabla aplican para grupos de hasta {QUOTE_THRESHOLD - 1} personas. A partir de{" "}
-              {QUOTE_THRESHOLD} personas, cada coffee break se cotiza a la medida — desliza el número de
+              Los precios de tabla aplican para grupos de hasta {QUOTE_THRESHOLD.toLocaleString("es-MX")} personas.
+              Para grupos más grandes, cada coffee break se cotiza a la medida — desliza el número de
               personas para verlo en acción.
             </p>
           </Reveal>
@@ -1465,7 +1506,7 @@ function ConvencionesView() {
       ]}
       galleryImages={[
         { src: IMG_CONVENCION_GRUPO, label: "Convención empresarial" },
-        { src: IMG_CONVENCION_CASCADA, label: "Team building" },
+        { src: IMG_CONVENCION_NOCHE, label: "Celebración empresarial" },
       ]}
       defaultTipo="Convenciones"
       ctaTitle="Cuéntanos de tu convención"
