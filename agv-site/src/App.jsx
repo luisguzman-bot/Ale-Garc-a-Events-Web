@@ -70,6 +70,7 @@ const IMG_TIER_VIP = "/images/tier-vip.jpg";
 const IMG_GALLERY_BODA = "/images/gallery-boda.jpg";
 const IMG_GALLERY_XV = "/images/gallery-xv.jpg";
 const IMG_KICKOFF_CONFERENCE = "/images/kickoff-conference.jpg";
+const IMG_LOGO_MARIPOSA = "/images/logo-mariposa.png"; // logo minimalista nuevo — reemplaza el SVG dibujado a mano
 const IMG_BODA_BOSQUE = "/images/boda-bosque.jpg";
 const IMG_BODA_RECEPCION = "/images/boda-recepcion.jpg";
 const IMG_XV_BAILE = "/images/xv-baile.jpg";
@@ -130,7 +131,7 @@ const VISION_MISION_VALORES = [
 // Debajo de 200, el sitio calcula y muestra precio. A partir de 200, pide
 // cotización directa por WhatsApp — igual que se pidió para 100 en la
 // primera versión, ahora extendido a 200 con el rango "Grande" ya cotizado.
-const QUOTE_THRESHOLD = 1000; // límite superior de la tabla de precios — arriba de esto, cotización a la medida
+const QUOTE_THRESHOLD = 200; // arriba de esto, cotización a la medida — no se muestra precio de tabla
 
 const PRICING = {
   essential: {
@@ -232,16 +233,17 @@ function getBracket(people) {
   if (people < 20) return null;
   if (people < 50) return "chico"; // 20 a 49
   if (people < 100) return "mediano"; // 50 a 99
-  if (people < 200) return "grande"; // 100 a 199
-  if (people < 400) return "extraGrande"; // 200 a 399
-  if (people < 700) return "corporativo"; // 400 a 699
-  if (people <= QUOTE_THRESHOLD) return "mega"; // 700 a 1,000
-  return "cotizacion"; // 1,001+ => cotización personalizada, sin precio visible
+  if (people < QUOTE_THRESHOLD) return "grande"; // 100 a 199
+  return "cotizacion"; // 200+ => cotización personalizada, sin precio visible
+  // Nota: PRICING sí conserva los rangos extraGrande/corporativo/mega (200-1,000)
+  // con los precios que diste — solo dejaron de mostrarse en la calculadora
+  // pública por instrucción explícita. Si más adelante se quieren volver a
+  // exponer, ya están calculados y listos.
 }
 
 function getPricePerPerson(tier, people, duration) {
   const bracket = getBracket(people);
-  const validBrackets = ["chico", "mediano", "grande", "extraGrande", "corporativo", "mega"];
+  const validBrackets = ["chico", "mediano", "grande"];
   if (!validBrackets.includes(bracket)) return null;
   return PRICING[tier][bracket][duration];
 }
@@ -390,18 +392,6 @@ function ViewTransition({ viewKey, children }) {
     <div key={viewKey} className="agv-view-transition">
       {children}
     </div>
-  );
-}
-
-function ButterflyMark({ size = 34, color = COLOR.rose }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 100 84" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M50 38 C 36 10, 6 12, 7 32 C 8 48, 30 50, 50 38 Z" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M50 38 C 64 10, 94 12, 93 32 C 92 48, 70 50, 50 38 Z" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M50 40 C 41 54, 22 58, 24 68 C 26 76, 42 72, 50 58 Z" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M50 40 C 59 54, 78 58, 76 68 C 74 76, 58 72, 50 58 Z" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="50" y1="34" x2="50" y2="62" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
   );
 }
 
@@ -624,7 +614,7 @@ function NavBar() {
         <span className="text-2xl sm:text-3xl tracking-wide" style={{ color: COLOR.ink, fontFamily: FONTS.display }}>
           Ale García Events
         </span>
-        <ButterflyMark size={20} color={COLOR.rose} />
+        <img src={IMG_LOGO_MARIPOSA} alt="" className="h-5 w-auto" />
       </span>
     );
   };
@@ -759,7 +749,7 @@ function HomeView() {
             width: "72px", height: "72px", backgroundColor: COLOR.paper,
           }}
         >
-          <ButterflyMark size={32} color={COLOR.ink} />
+          <img src={IMG_LOGO_MARIPOSA} alt="" className="h-8 w-auto" />
         </div>
       </section>
 
@@ -1008,7 +998,9 @@ function ReceiptTicket({ tierKey, people, duration }) {
 
   const waMsg = needsQuote
     ? `Hola, quiero una cotización personalizada de Coffee Break nivel ${tier.label} para ${people} personas, duración de ${duration} horas.`
-    : `Hola, quiero reservar Coffee Break nivel ${tier.label} para ${people} personas, ${duration} horas. Vi un total estimado de ${total ? money(total) : ""}.`;
+    : belowMinimum
+      ? `Hola, quiero cotizar Coffee Break nivel ${tier.label} para ${people} personas, ${duration} horas. Vi que el mínimo de este nivel es ${money(minimum)} — me interesa conocer los extras disponibles para completarlo.`
+      : `Hola, quiero reservar Coffee Break nivel ${tier.label} para ${people} personas, ${duration} horas. Vi un total estimado de ${total ? money(total) : ""}.`;
 
   return (
     <div className="mx-auto max-w-sm">
@@ -1045,14 +1037,15 @@ function ReceiptTicket({ tierKey, people, duration }) {
               <div className="flex justify-between text-lg font-bold"><span>Total</span><span>{money(animatedTotal)}</span></div>
               {belowMinimum && (
                 <p className="text-xs leading-relaxed pt-1" style={{ color: COLOR.roseDeep, fontFamily: FONTS.body }}>
-                  Este nivel tiene un mínimo de contratación de {money(minimum)} por evento — el total ya lo refleja.
+                  Este nivel tiene un mínimo de contratación de {money(minimum)} por evento. Tenemos extras
+                  para completarlo — te los proponemos en tu cotización por WhatsApp.
                 </p>
               )}
             </>
           )}
           {needsQuote && (
             <p className="text-xs leading-relaxed" style={{ color: COLOR.roseDeep, fontFamily: FONTS.body }}>
-              Para grupos de más de {QUOTE_THRESHOLD.toLocaleString("es-MX")} personas, tu coffee break se cotiza a la medida — sin precio de tabla.
+              Para grupos de {QUOTE_THRESHOLD} personas o más, tu coffee break se cotiza a la medida — sin precio de tabla.
               Escríbenos y te respondemos con una propuesta.
             </p>
           )}
@@ -1159,8 +1152,8 @@ function CoffeeBreaksView() {
             </div>
 
             <p className="text-xs leading-relaxed" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-              Los precios de tabla aplican para grupos de hasta {QUOTE_THRESHOLD.toLocaleString("es-MX")} personas.
-              Para grupos más grandes, cada coffee break se cotiza a la medida — desliza el número de
+              Los precios de tabla aplican para grupos de hasta {QUOTE_THRESHOLD - 1} personas. A partir de{" "}
+              {QUOTE_THRESHOLD} personas, cada coffee break se cotiza a la medida — desliza el número de
               personas para verlo en acción.
             </p>
           </Reveal>
