@@ -1610,6 +1610,59 @@ function PlannerView() {
         </p>
       </Reveal>
 
+      {/* ── Bloque nuevo, sugerido por la retroalimentación de la jefa/ChatGPT ──
+          Aterriza qué significa "corporativo" y qué significa "celebración"
+          antes del mosaico de servicios, sin convertir el brand statement de
+          arriba en un catálogo. Solo existe en Planner — no se tocó nada más. */}
+      <Reveal className="mx-auto max-w-2xl px-6 pb-14 text-center">
+        <p className="text-sm sm:text-base leading-relaxed" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+          Creo eventos corporativos que conectan personas, celebran logros y dejan huella, así como celebraciones especiales pensadas para disfrutarse de principio a fin. De un kickoff a una gran celebración, cuido cada detalle para transformar cada momento en una experiencia que se vive y se recuerda.
+        </p>
+      </Reveal>
+
+      <section className="mx-auto max-w-5xl px-6 pb-20">
+        <Reveal className="text-center mb-10">
+          <Eyebrow color={COLOR.rose}>Qué creo</Eyebrow>
+          <h3 className="text-2xl sm:text-3xl uppercase mt-2 mb-3" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
+            Experiencias que creo
+          </h3>
+          <p className="text-sm max-w-lg mx-auto" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+            Cada evento tiene una razón distinta para suceder. Mi trabajo es entenderla, darle forma y cuidar cada detalle para que tú puedas vivirlo y disfrutarlo.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Reveal variant="scale" delay={0.05}>
+            <div className="rounded-2xl p-8 h-full" style={{ backgroundColor: COLOR.creamDeep }}>
+              <Users size={22} style={{ color: COLOR.roseDeep }} className="mb-3" />
+              <h4 className="text-lg uppercase tracking-wide mb-2" style={{ fontFamily: FONTS.display, color: COLOR.ink, fontWeight: 600 }}>
+                Para empresas
+              </h4>
+              <p className="text-sm mb-5" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+                Experiencias que conectan, reconocen y celebran.
+              </p>
+              <p className="text-xs leading-loose" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+                Convenciones · Congresos · Kickoffs · Aniversarios corporativos · Fiestas de fin de año · Lanzamientos · Conferencias · Experiencias de integración · Viajes de incentivo · Eventos a la medida
+              </p>
+            </div>
+          </Reveal>
+          <Reveal variant="scale" delay={0.12}>
+            <div className="rounded-2xl p-8 h-full" style={{ backgroundColor: COLOR.roseSoft }}>
+              <PartyPopper size={22} style={{ color: COLOR.roseDeep }} className="mb-3" />
+              <h4 className="text-lg uppercase tracking-wide mb-2" style={{ fontFamily: FONTS.display, color: COLOR.ink, fontWeight: 600 }}>
+                Para celebrar
+              </h4>
+              <p className="text-sm mb-5" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+                Momentos importantes que merecen vivirse sin preocuparte por cada detalle.
+              </p>
+              <p className="text-xs leading-loose" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+                Bodas · XV años · Cumpleaños · Aniversarios · Celebraciones familiares · Experiencias a la medida
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Catálogo de servicios — mosaico de fotos, sin recuadros de color */}
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
