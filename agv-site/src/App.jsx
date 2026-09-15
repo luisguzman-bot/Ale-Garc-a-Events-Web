@@ -71,6 +71,8 @@ const IMG_GALLERY_BODA = "/images/gallery-boda.jpg";
 const IMG_GALLERY_XV = "/images/gallery-xv.jpg";
 const IMG_KICKOFF_CONFERENCE = "/images/kickoff-conference.jpg";
 const IMG_LOGO_MARIPOSA = "/images/logo-mariposa.png"; // logo minimalista nuevo — reemplaza el SVG dibujado a mano
+const IMG_XV_AZUL = "/images/xv-azul.jpg";
+const IMG_POSADA_PAPEL_PICADO = "/images/posada-papel-picado.jpg";
 const IMG_BODA_BOSQUE = "/images/boda-bosque.jpg";
 const IMG_BODA_RECEPCION = "/images/boda-recepcion.jpg";
 const IMG_XV_BAILE = "/images/xv-baile.jpg";
@@ -614,7 +616,7 @@ function NavBar() {
         <span className="text-2xl sm:text-3xl tracking-wide" style={{ color: COLOR.ink, fontFamily: FONTS.display }}>
           Ale García Events
         </span>
-        <img src={IMG_LOGO_MARIPOSA} alt="" className="h-5 w-auto" />
+        <img src={IMG_LOGO_MARIPOSA} alt="" className="h-8 w-auto" />
       </span>
     );
   };
@@ -703,7 +705,7 @@ function HomeView() {
           </div>
           <img src={LOGO_COFFEE} alt="Ale García Coffee Break" className="relative w-64 max-w-full mb-6 transition-transform duration-500 group-hover:-translate-y-1" />
           <p className="relative max-w-sm text-sm mb-6" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
-            Café, panadería y servicio para juntas, capacitaciones y eventos corporativos de todos los tamaños.
+            Una pausa que se disfruta. Delicioso café, alimentos abundantes y una presentación cuidada para acompañar juntas, reuniones y momentos especiales.
           </p>
           <span
             className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em]"
@@ -749,7 +751,7 @@ function HomeView() {
             width: "72px", height: "72px", backgroundColor: COLOR.paper,
           }}
         >
-          <img src={IMG_LOGO_MARIPOSA} alt="" className="h-8 w-auto" />
+          <img src={IMG_LOGO_MARIPOSA} alt="" className="h-14 w-auto" />
         </div>
       </section>
 
@@ -1350,7 +1352,7 @@ function ServiceLandingPage({ headline, eyebrow, accent, heroImage, heroVideo, i
 function PosadasEmpresarialesView() {
   return (
     <ServiceLandingPage
-      headline="La posada que tu equipo sí va a recordar"
+      headline="Fiestas de fin de año y posadas"
       eyebrow="Posadas empresariales"
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_POSADA}
@@ -1365,7 +1367,7 @@ function PosadasEmpresarialesView() {
         "Experiencia con grupos de 50 a 500+ personas",
       ]}
       galleryImages={[
-        { src: IMG_GALLERY_POSADA, label: "Posada empresarial" },
+        { src: IMG_POSADA_PAPEL_PICADO, label: "Posada empresarial" },
         { src: IMG_SERVICE_POSADA, label: "Montaje de posada" },
       ]}
       defaultTipo="Posadas empresariales"
@@ -1432,7 +1434,7 @@ function XVAnosView() {
       headline="Una fiesta de XV que se sienta 100% suya"
       eyebrow="XV años"
       accent={COLOR.blush}
-      heroImage={IMG_XV_BAILE}
+      heroImage={IMG_XV_AZUL}
       heroVideo={VIDEO_HERO_XV}
       intro="Organizamos la transición que marca esta etapa: del vals a la pista de baile, cuidando el estilo, el presupuesto y cada detalle que la hace única."
       bullets={[
@@ -1444,7 +1446,7 @@ function XVAnosView() {
         "Paquetes ajustables al número de invitados",
       ]}
       galleryImages={[
-        { src: IMG_XV_BAILE, label: "XV años" },
+        { src: IMG_XV_AZUL, label: "XV años" },
         { src: IMG_XV_CEREMONIA, label: "Ceremonia" },
       ]}
       defaultTipo="15 años"
