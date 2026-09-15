@@ -48,7 +48,7 @@ const LOGO_COFFEE = "/images/logo-coffee.png";
 // ---------------------------------------------------------------------------
 // Datos de negocio — EDITAR AQUÍ cuando cambien precios, WhatsApp o contenido
 // ---------------------------------------------------------------------------
-const WHATSAPP_NUMBER = "523329712214"; // Número real de WhatsApp Business de Ale García
+const WHATSAPP_NUMBER = "523320296849"; // Número real de WhatsApp Business de Ale García
 
 // Fotos de portada (banner superior) de Coffee Breaks y Planner.
 // Súbelas al chat y se reemplaza este null por la foto real (ver PageHero más abajo).
@@ -63,6 +63,16 @@ const VIDEO_HERO_POSADAS = "/videos/posadas-hero.mp4"; // Pista y luces del even
 const VIDEO_HERO_ANIVERSARIOS = "/videos/aniversarios-hero.mp4"; // Banda en vivo del 15 Aniversario
 const VIDEO_HERO_XV = "/videos/xv-hero.mp4"; // Limusina, mesa de dulces, ceremonia al aire libre
 const VIDEO_HERO_CONVENCIONES = "/videos/convenciones-hero.mp4"; // Registro de invitados y resort
+
+// Fotogramas de portada (poster): se ven de inmediato mientras el video carga,
+// en vez de dejar la pantalla en blanco — ayuda mucho en conexiones lentas.
+const POSTER_COFFEE = "/images/poster-coffee-hero.jpg";
+const POSTER_PLANNER = "/images/poster-planner-hero.jpg";
+const POSTER_CONTACTO = "/images/poster-contacto-hero.jpg";
+const POSTER_POSADAS = "/images/poster-posadas-hero.jpg";
+const POSTER_ANIVERSARIOS = "/images/poster-aniversarios-hero.jpg";
+const POSTER_XV = "/images/poster-xv-hero.jpg";
+const POSTER_CONVENCIONES = "/images/poster-convenciones-hero.jpg";
 const IMG_HERO_PLANNER = "/images/hero-planner.jpg";
 const IMG_TIER_BASICO = "/images/tier-basico.jpg";
 const IMG_TIER_ESTANDAR = "/images/tier-estandar.jpg";
@@ -213,8 +223,8 @@ const INCLUSIONS = {
 
 const PLANNER_SERVICES = [
   { key: "boda", label: "Bodas", blurb: "Desde la propuesta hasta el último baile, cada detalle cuidado.", image: IMG_BODA_BOSQUE, route: "/bodas" },
-  { key: "xv", label: "15 años", blurb: "La fiesta que marca su transición, sin que a ti te falte nada.", image: IMG_XV_BAILE, route: "/xv-anos" },
-  { key: "posada", label: "Posadas empresariales", blurb: "La fiesta de fin de año de tu equipo, resuelta de principio a fin.", image: IMG_SERVICE_POSADA, route: "/posadas-empresariales" },
+  { key: "xv", label: "15 años", blurb: "La fiesta que marca su transición, sin que a ti te falte nada.", image: IMG_XV_AZUL, route: "/xv-anos" },
+  { key: "posada", label: "Fiestas de fin de año y posadas", blurb: "La fiesta de fin de año de tu equipo, resuelta de principio a fin.", image: IMG_SERVICE_POSADA, route: "/posadas-empresariales" },
   { key: "kickoff", label: "Kickoffs", blurb: "Arranca el año con un evento que marca el tono.", image: IMG_SERVICE_KICKOFF, route: "/kickoff-empresarial" },
   { key: "otro", label: "Aniversarios y otros", blurb: "Celebraciones a la medida, sin importar el motivo.", image: IMG_SERVICE_OTROS, route: "/aniversarios" },
   { key: "convencion", label: "Convenciones", blurb: "Juntas y congresos de gran formato, con logística que no se nota — solo funciona.", image: IMG_CONVENCION_GRUPO, route: "/convenciones" },
@@ -397,7 +407,7 @@ function ViewTransition({ viewKey, children }) {
   );
 }
 
-function PageHero({ headline, accent, imageUrl = null, videoUrl = null, objectPosition = "center" }) {
+function PageHero({ headline, accent, imageUrl = null, videoUrl = null, videoPoster = null, objectPosition = "center" }) {
   const [parallaxRef, offset] = useParallax(0.08);
   const [mounted, setMounted] = useState(false);
   const reduced = usePrefersReducedMotion();
@@ -414,6 +424,7 @@ function PageHero({ headline, accent, imageUrl = null, videoUrl = null, objectPo
             className="h-full w-full object-cover"
             style={{ objectPosition }}
             src={videoUrl}
+            poster={videoPoster || undefined}
             autoPlay
             muted
             loop
@@ -694,7 +705,7 @@ function HomeView() {
         >
           <div className="absolute inset-0" aria-hidden="true">
             {VIDEO_HERO_COFFEE ? (
-              <video className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={VIDEO_HERO_COFFEE} autoPlay muted loop playsInline />
+              <video className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={VIDEO_HERO_COFFEE} poster={POSTER_COFFEE} autoPlay muted loop playsInline />
             ) : (
               <div
                 className="h-full w-full agv-gradient-drift"
@@ -722,7 +733,7 @@ function HomeView() {
         >
           <div className="absolute inset-0" aria-hidden="true">
             {VIDEO_HERO_PLANNER ? (
-              <video className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={VIDEO_HERO_PLANNER} autoPlay muted loop playsInline />
+              <video className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={VIDEO_HERO_PLANNER} poster={POSTER_PLANNER} autoPlay muted loop playsInline />
             ) : (
               <div
                 className="h-full w-full agv-gradient-drift"
@@ -1085,7 +1096,7 @@ function CoffeeBreaksView() {
 
   return (
     <div>
-      <PageHero headline="El coffee break perfecto" accent={COLOR.blush} imageUrl={IMG_HERO_COFFEE} videoUrl={VIDEO_HERO_COFFEE} />
+      <PageHero headline="El coffee break perfecto" accent={COLOR.blush} imageUrl={IMG_HERO_COFFEE} videoUrl={VIDEO_HERO_COFFEE} videoPoster={POSTER_COFFEE} />
       <p className="max-w-lg mx-auto text-sm text-center px-6 pt-8" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
         Tres niveles, un mismo estándar de servicio. Elige el que va con tu evento y arma tu cotización al instante.
       </p>
@@ -1297,10 +1308,10 @@ function PlannerLeadForm({ defaultTipo, serviceOptions, title = "Cuéntanos de t
 // Página dedicada por servicio (Posadas, Kickoff) — existen aparte de /planner
 // porque Google Ads necesita un destino que responda exactamente a la búsqueda
 // ("posada empresarial guadalajara"), no la página genérica de Planner.
-function ServiceLandingPage({ headline, eyebrow, accent, heroImage, heroVideo, intro, bullets, galleryImages, defaultTipo, ctaTitle }) {
+function ServiceLandingPage({ headline, eyebrow, accent, heroImage, heroVideo, heroVideoPoster, intro, bullets, galleryImages, defaultTipo, ctaTitle }) {
   return (
     <div>
-      <PageHero headline={headline} accent={accent} imageUrl={heroImage} videoUrl={heroVideo} />
+      <PageHero headline={headline} accent={accent} imageUrl={heroImage} videoUrl={heroVideo} videoPoster={heroVideoPoster} />
 
       <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-4 text-center">
         <Eyebrow color={accent}>{eyebrow}</Eyebrow>
@@ -1352,11 +1363,12 @@ function ServiceLandingPage({ headline, eyebrow, accent, heroImage, heroVideo, i
 function PosadasEmpresarialesView() {
   return (
     <ServiceLandingPage
-      headline="Fiestas de fin de año y posadas"
+      headline="La posada que tu equipo sí va a recordar"
       eyebrow="Posadas empresariales"
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_POSADA}
       heroVideo={VIDEO_HERO_POSADAS}
+      heroVideoPoster={POSTER_POSADAS}
       intro="Organizamos la fiesta de fin de año de tu empresa de principio a fin: salón, ambientación, entretenimiento y logística — para que tú también puedas disfrutar la noche con tu equipo, en vez de estar resolviendo pendientes."
       bullets={[
         "Producción completa: sonido, iluminación y escenografía",
@@ -1367,10 +1379,10 @@ function PosadasEmpresarialesView() {
         "Experiencia con grupos de 50 a 500+ personas",
       ]}
       galleryImages={[
-        { src: IMG_POSADA_PAPEL_PICADO, label: "Posada empresarial" },
+        { src: IMG_GALLERY_POSADA, label: "Posada empresarial" },
         { src: IMG_SERVICE_POSADA, label: "Montaje de posada" },
       ]}
-      defaultTipo="Posadas empresariales"
+      defaultTipo="Fiestas de fin de año y posadas"
       ctaTitle="Cuéntanos de tu posada"
     />
   );
@@ -1436,6 +1448,7 @@ function XVAnosView() {
       accent={COLOR.blush}
       heroImage={IMG_XV_AZUL}
       heroVideo={VIDEO_HERO_XV}
+      heroVideoPoster={POSTER_XV}
       intro="Organizamos la transición que marca esta etapa: del vals a la pista de baile, cuidando el estilo, el presupuesto y cada detalle que la hace única."
       bullets={[
         "Asesoría de estilo y tendencias actuales",
@@ -1463,6 +1476,7 @@ function AniversariosView() {
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_OTROS}
       heroVideo={VIDEO_HERO_ANIVERSARIOS}
+      heroVideoPoster={POSTER_ANIVERSARIOS}
       intro="Bautizos, aniversarios, graduaciones, reuniones familiares — cualquier motivo para celebrar merece la misma atención al detalle que le damos a una boda o un evento corporativo."
       bullets={[
         "Eventos de cualquier tamaño, desde 20 hasta 500+ invitados",
@@ -1490,6 +1504,7 @@ function ConvencionesView() {
       accent={COLOR.blush}
       heroImage={IMG_CONVENCION_GRUPO}
       heroVideo={VIDEO_HERO_CONVENCIONES}
+      heroVideoPoster={POSTER_CONVENCIONES}
       intro="Juntas anuales, congresos, capacitaciones de varios días — coordinamos la logística completa para que tu equipo se enfoque en el contenido, no en resolver imprevistos."
       bullets={[
         "Producción audiovisual y escenario",
@@ -1516,7 +1531,7 @@ const CONTACT_SERVICE_OPTIONS = ["Coffee Break", ...PLANNER_SERVICES.map((s) => 
 function ContactoView() {
   return (
     <div>
-      <PageHero headline="Hablemos de tu evento" accent={COLOR.ink} videoUrl={VIDEO_HERO_CONTACTO} />
+      <PageHero headline="Hablemos de tu evento" accent={COLOR.ink} videoUrl={VIDEO_HERO_CONTACTO} videoPoster={POSTER_CONTACTO} />
 
       <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-4 text-center">
         <Eyebrow color={COLOR.ink}>Contacto</Eyebrow>
