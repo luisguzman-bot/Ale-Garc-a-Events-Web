@@ -81,6 +81,7 @@ const IMG_GALLERY_BODA = "/images/gallery-boda.jpg";
 const IMG_GALLERY_XV = "/images/gallery-xv.jpg";
 const IMG_KICKOFF_CONFERENCE = "/images/kickoff-conference.jpg";
 const IMG_LOGO_MARIPOSA = "/images/logo-mariposa.png"; // logo minimalista nuevo — reemplaza el SVG dibujado a mano
+const IMG_LOGO_HORIZONTAL = "/images/logo-ale-garcia-events.jpg"; // logo cursivo grande — reemplaza el texto + mariposa del header
 const IMG_XV_AZUL = "/images/xv-azul.jpg";
 const IMG_POSADA_PAPEL_PICADO = "/images/posada-papel-picado.jpg";
 const IMG_BODA_BOSQUE = "/images/boda-bosque.jpg";
@@ -114,26 +115,28 @@ const TESTIMONIALS = [
 const IMG_VISION = "/images/vision.jpg";
 const IMG_MISION = "/images/mision.jpg";
 const IMG_VALORES = "/images/valores.jpg";
+// TODO (Ale García): reemplazar con una foto real de Ale trabajando en un evento.
+const IMG_ALE_FOTO = "/images/ale-foto.jpg";
 
 const VISION_MISION_VALORES = [
   {
     titulo: "Visión",
-    texto: "Ser la empresa número 1 en creación de experiencias inolvidables internacionalmente.",
+    texto: "Crear experiencias que trasciendan el evento y permanezcan en la memoria de quienes las viven, haciendo crecer Ale García Events sin perder nunca la cercanía y el cuidado con el que comenzó.",
     imagen: IMG_VISION,
   },
   {
     titulo: "Misión",
-    texto: "Transformar tus momentos importantes en experiencias inolvidables con un equipo comprometido desde la primera idea hasta el último detalle de la ejecución.",
+    texto: "Entender cada sueño, cada objetivo y cada motivo para celebrar, y transformarlo en una experiencia que mis clientes puedan disfrutar con la tranquilidad de saber que cada detalle está siendo atendido.",
     imagen: IMG_MISION,
   },
   {
     titulo: "Valores",
     valores: [
-      { nombre: "Pasión", texto: "Cada evento se vive como si fuera el más importante." },
-      { nombre: "Compromiso", texto: "Te acompañamos desde la idea hasta el último detalle." },
-      { nombre: "Excelencia", texto: "Cuidamos cada detalle para que nada se sienta a medias." },
-      { nombre: "Cercanía", texto: "Escuchamos primero, ejecutamos después." },
-      { nombre: "Innovación", texto: "Buscamos siempre una forma mejor de sorprender." },
+      { nombre: "Cercanía", texto: "" },
+      { nombre: "Compromiso", texto: "" },
+      { nombre: "Servicio", texto: "" },
+      { nombre: "Creatividad", texto: "" },
+      { nombre: "Cuidado por los detalles", texto: "" },
     ],
     imagen: IMG_VALORES,
   },
@@ -170,7 +173,7 @@ const PRICING = {
   },
   premium: {
     label: "Premium Experience",
-    tagline: "Café de especialidad y una experiencia de servicio superior",
+    tagline: "Selección premium de café y una experiencia de servicio superior",
     image: IMG_TIER_VIP,
     chico: { 2: 310, 4: 395, 8: 525 },
     mediano: { 2: 295, 4: 380, 8: 505 },
@@ -232,9 +235,9 @@ const PLANNER_SERVICES = [
 
 // TODO (Ale García): revisar/ajustar esta descripción de las 3 etapas de trabajo — texto borrador.
 const PLANNER_PROCESS = [
-  { paso: "01", titulo: "Platicamos", texto: "Nos cuentas tu idea, el motivo y cuántos invitados esperas." },
-  { paso: "02", titulo: "Cotizamos", texto: "Te armamos una propuesta clara, sin sorpresas de última hora." },
-  { paso: "03", titulo: "Lo hacemos realidad", texto: "El día del evento, nosotros resolvemos cada detalle." },
+  { paso: "01", titulo: "Nos conocemos", texto: "Quiero entender qué imaginas, qué necesitas y, sobre todo, cómo quieres vivir tu evento." },
+  { paso: "02", titulo: "Le damos forma", texto: "Construimos una propuesta pensada para ti, tu evento y tus prioridades." },
+  { paso: "03", titulo: "Lo hacemos realidad", texto: "Coordinamos cada parte para que, cuando llegue el día, tú puedas dedicarte a vivirlo." },
 ];
 
 
@@ -482,6 +485,7 @@ function Eyebrow({ children, color = COLOR.rose }) {
 
 // Fotos del carrusel de galería (Home). null = sigue como placeholder.
 const IMG_GALLERY_POSADA = "/images/gallery-posada.jpg";
+const IMG_POSADA_COMEDOR = "/images/posada-comedor.jpg";
 const IMG_GALLERY_ANIVERSARIO = "/images/gallery-aniversario.jpg";
 const IMG_GALLERY_AIRE_LIBRE = "/images/gallery-aire-libre.jpg";
 const IMG_GALLERY_KICKOFF = "/images/gallery-kickoff.jpg";
@@ -490,9 +494,9 @@ const IMG_GALLERY_VIP = "/images/gallery-vip.jpg";
 const GALLERY_ITEMS = [
   { label: "Coffee break corporativo", image: IMG_TIER_VIP },
   { label: "Boda", image: IMG_GALLERY_BODA },
-  { label: "Posada empresarial", image: IMG_GALLERY_POSADA },
+  { label: "Posada empresarial", image: IMG_POSADA_PAPEL_PICADO },
   { label: "XV años", image: IMG_GALLERY_XV },
-  { label: "Aniversario de empresa", image: IMG_GALLERY_ANIVERSARIO },
+  { label: "Aniversario de empresa", image: IMG_POSADA_PAPEL_PICADO },
   { label: "Kickoff de año nuevo", image: IMG_GALLERY_KICKOFF },
   { label: "Montaje nivel VIP", image: IMG_GALLERY_VIP },
   { label: "Evento al aire libre", image: IMG_GALLERY_AIRE_LIBRE },
@@ -622,14 +626,7 @@ function NavBar() {
     if (view === "planner") {
       return <img src={LOGO_PLANNER} alt="Ale García Event Planner" className="h-14 sm:h-16 w-auto" />;
     }
-    return (
-      <span className="flex flex-col items-center gap-1">
-        <span className="text-2xl sm:text-3xl tracking-wide" style={{ color: COLOR.ink, fontFamily: FONTS.display }}>
-          Ale García Events
-        </span>
-        <img src={IMG_LOGO_MARIPOSA} alt="" className="h-8 w-auto" />
-      </span>
-    );
+    return <img src={IMG_LOGO_HORIZONTAL} alt="Ale García Events" className="h-14 sm:h-16 w-auto" />;
   };
 
   return (
@@ -716,7 +713,7 @@ function HomeView() {
           </div>
           <img src={LOGO_COFFEE} alt="Ale García Coffee Break" className="relative w-64 max-w-full mb-6 transition-transform duration-500 group-hover:-translate-y-1" />
           <p className="relative max-w-sm text-sm mb-6" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
-            Una pausa que se disfruta. Delicioso café, alimentos abundantes y una presentación cuidada para acompañar juntas, reuniones y momentos especiales.
+            Una pausa para disfrutar y compartir. Delicioso café, sabores para acompañar y detalles que hacen especial cada encuentro.
           </p>
           <span
             className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em]"
@@ -744,7 +741,7 @@ function HomeView() {
           </div>
           <img src={LOGO_PLANNER} alt="Ale García Event Planner" className="relative w-72 max-w-full mb-6 transition-transform duration-500 group-hover:-translate-y-1" />
           <p className="relative max-w-sm text-sm mb-6" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
-            Bodas, XV años, posadas empresariales y kickoffs, organizados de principio a fin.
+            Creo eventos corporativos que conectan personas, celebran logros y dejan huella, así como celebraciones especiales pensadas para disfrutarse de principio a fin. De un kickoff a una gran celebración, cuido cada detalle para transformar cada momento en una experiencia que se vive y se recuerda.
           </p>
           <span
             className="relative inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em]"
@@ -767,13 +764,16 @@ function HomeView() {
       </section>
 
       <Reveal className="mx-auto max-w-4xl px-6 py-16 text-center">
-        <Eyebrow color={COLOR.rose}>Un mismo equipo</Eyebrow>
+        <Eyebrow color={COLOR.rose}>Una misma esencia</Eyebrow>
         <h3 className="text-3xl mb-3" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-          Dos formas de acompañar tu evento
+          Ale García Events
         </h3>
         <p className="text-sm max-w-xl mx-auto" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-          Ale García Events reúne a Coffee Breaks y Planner bajo un mismo estándar de servicio en la Zona
-          Metropolitana de Guadalajara. Cotiza el que necesites, o combina los dos para tu próximo evento.
+          Cada evento se vive de muchas formas. A veces comienza con una gran idea y se transforma en una
+          experiencia completa; otras, sucede alrededor de una pausa, una conversación y un buen café. Por eso
+          Ale García Events reúne Event Planner y Coffee Break bajo una misma esencia: crear momentos que se
+          disfrutan, cuidar a quienes los viven y estar presente en cada detalle. Puedes elegir cada servicio por
+          separado o unir ambos para crear una experiencia mucho más completa.
         </p>
       </Reveal>
 
@@ -828,7 +828,7 @@ function HomeView() {
                 {item.valores.map((v) => (
                   <li key={v.nombre} className="text-sm" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
                     <span className="font-semibold" style={{ color: COLOR.ink, fontFamily: FONTS.display }}>{v.nombre}</span>
-                    {" — "}{v.texto}
+                    {v.texto ? ` — ${v.texto}` : ""}
                   </li>
                 ))}
               </ul>
@@ -867,6 +867,37 @@ function HomeView() {
           </Reveal>
         );
       })}
+
+      {/* Sección nueva sugerida por ChatGPT/la jefa: falta conocer a Ale detrás
+          de la marca. Falta la foto real — dejé el placeholder listo. */}
+      <section className="px-6 py-20" style={{ backgroundColor: COLOR.creamDeep }}>
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <Eyebrow color={COLOR.rose}>Quién está detrás</Eyebrow>
+          <h3 className="text-3xl uppercase mb-8" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
+            Soy Ale
+          </h3>
+          <PhotoPlaceholder
+            label="Foto de Ale García"
+            accent={COLOR.rose}
+            imageUrl={IMG_ALE_FOTO}
+            rounded={false}
+            bordered={false}
+            hoverLift={false}
+            showLabel={false}
+            className="w-40 h-40 rounded-full mx-auto mb-8"
+          />
+          <p className="text-base leading-relaxed max-w-xl mx-auto mb-6" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+            Soy Ale García y detrás de cada evento hay algo que para mí nunca cambia: primero quiero entender qué
+            significa para ti. Llevo años acompañando empresas, familias y personas en momentos que necesitan
+            organización, pero también sensibilidad, criterio y mucha atención. Me involucro porque sé que cuando
+            alguien pone un evento en mis manos no me está entregando solamente una fecha: me está confiando algo
+            importante.
+          </p>
+          <p className="text-lg" style={{ fontFamily: FONTS.display, fontStyle: "italic", color: COLOR.roseDeep }}>
+            "La metamorfosis de cada evento inicia en un sueño."
+          </p>
+        </Reveal>
+      </section>
 
       <Reveal delay={0.15} className="mx-auto max-w-3xl px-6 pb-16 text-center">
         <Eyebrow color={COLOR.rose}>Síguenos</Eyebrow>
@@ -1072,7 +1103,7 @@ function ReceiptTicket({ tierKey, people, duration }) {
           style={{ backgroundColor: needsQuote ? COLOR.rose : COLOR.whatsapp, color: "#fff", fontFamily: FONTS.body }}
         >
           <MessageCircle size={18} fill="#fff" style={{ color: needsQuote ? COLOR.rose : COLOR.whatsapp }} />
-          {needsQuote ? "Solicitar cotización personalizada" : "Reservar por WhatsApp"}
+          {needsQuote ? "Solicitar cotización personalizada" : "Cotizar por WhatsApp"}
         </a>
       </div>
       <div
@@ -1096,9 +1127,9 @@ function CoffeeBreaksView() {
 
   return (
     <div>
-      <PageHero headline="El coffee break perfecto" accent={COLOR.blush} imageUrl={IMG_HERO_COFFEE} videoUrl={VIDEO_HERO_COFFEE} videoPoster={POSTER_COFFEE} />
+      <PageHero headline="Una pausa que también forma parte de la experiencia" accent={COLOR.blush} imageUrl={IMG_HERO_COFFEE} videoUrl={VIDEO_HERO_COFFEE} videoPoster={POSTER_COFFEE} />
       <p className="max-w-lg mx-auto text-sm text-center px-6 pt-8" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
-        Tres niveles, un mismo estándar de servicio. Elige el que va con tu evento y arma tu cotización al instante.
+        Cada evento necesita algo diferente. Por eso creamos tres niveles de servicio que comparten la misma atención, cuidado y calidad, desde una reunión sencilla hasta una experiencia mucho más completa.
       </p>
 
       <section className="mx-auto max-w-6xl px-6 pt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -1363,13 +1394,13 @@ function ServiceLandingPage({ headline, eyebrow, accent, heroImage, heroVideo, h
 function PosadasEmpresarialesView() {
   return (
     <ServiceLandingPage
-      headline="La posada que tu equipo sí va a recordar"
+      headline="Una celebración a la altura de todo lo que tu equipo logró"
       eyebrow="Posadas empresariales"
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_POSADA}
       heroVideo={VIDEO_HERO_POSADAS}
       heroVideoPoster={POSTER_POSADAS}
-      intro="Organizamos la fiesta de fin de año de tu empresa de principio a fin: salón, ambientación, entretenimiento y logística — para que tú también puedas disfrutar la noche con tu equipo, en vez de estar resolviendo pendientes."
+      intro="Una fiesta de fin de año no es sólo el cierre del calendario: es una oportunidad para reconocer, agradecer y reunir a tu equipo. Diseñamos la experiencia completa —producción, ambientación, entretenimiento, alimentos, tiempos y logística— para que tu empresa pueda celebrar y disfrutar sin estar resolviendo pendientes durante la noche."
       bullets={[
         "Producción completa: sonido, iluminación y escenografía",
         "Coordinación de proveedores el día del evento",
@@ -1379,7 +1410,7 @@ function PosadasEmpresarialesView() {
         "Experiencia con grupos de 50 a 500+ personas",
       ]}
       galleryImages={[
-        { src: IMG_GALLERY_POSADA, label: "Posada empresarial" },
+        { src: IMG_POSADA_COMEDOR, label: "Posada empresarial" },
         { src: IMG_SERVICE_POSADA, label: "Montaje de posada" },
       ]}
       defaultTipo="Fiestas de fin de año y posadas"
@@ -1391,11 +1422,11 @@ function PosadasEmpresarialesView() {
 function KickoffEmpresarialView() {
   return (
     <ServiceLandingPage
-      headline="Arranca el año con el pie derecho"
+      headline="Un kickoff que alinea, inspira y pone a todos en movimiento"
       eyebrow="Kickoff empresarial"
       accent={COLOR.blush}
       heroImage={IMG_SERVICE_KICKOFF}
-      intro="Tu kickoff anual marca el tono del año para todo tu equipo. Nosotros armamos el evento — escenario, producción audiovisual, dinámica del día — para que el mensaje de liderazgo llegue con el impacto que merece."
+      intro="Un kickoff no es sólo un evento de inicio de año. Es el momento de alinear al equipo, compartir la visión, reconocer lo alcanzado y generar energía para lo que viene. Convertimos ese mensaje en una experiencia completa, cuidando escenario, producción, contenidos, dinámica y logística para que el objetivo de la empresa sea el verdadero protagonista."
       bullets={[
         "Escenario y producción audiovisual",
         "Dinámicas de integración y reconocimientos",
@@ -1417,11 +1448,11 @@ function KickoffEmpresarialView() {
 function BodasView() {
   return (
     <ServiceLandingPage
-      headline="La boda que soñaste, sin el estrés de organizarla"
+      headline="La boda que soñaste, para que tú también puedas vivirla"
       eyebrow="Bodas"
       accent={COLOR.rose}
       heroImage={IMG_BODA_BOSQUE}
-      intro="Acompañamos cada boda desde la primera cita hasta el último baile: proveedores, tiempos, montaje y logística del día, para que tú solo tengas que disfrutar."
+      intro="Quiero que el día de tu boda seas novia, no organizadora. Desde nuestra primera conversación hasta el último momento de la celebración, cuidamos proveedores, tiempos, montaje, logística y todos esos detalles que hacen que tú puedas dedicarte a disfrutar."
       bullets={[
         "Selección y coordinación de proveedores (banquete, decoración, música)",
         "Cronograma detallado del día del evento",
@@ -1443,13 +1474,13 @@ function BodasView() {
 function XVAnosView() {
   return (
     <ServiceLandingPage
-      headline="Una fiesta de XV que se sienta 100% suya"
+      headline="Sus XV, su historia, su forma de celebrarla"
       eyebrow="XV años"
       accent={COLOR.blush}
       heroImage={IMG_XV_AZUL}
       heroVideo={VIDEO_HERO_XV}
       heroVideoPoster={POSTER_XV}
-      intro="Organizamos la transición que marca esta etapa: del vals a la pista de baile, cuidando el estilo, el presupuesto y cada detalle que la hace única."
+      intro="Los XV años marcan una etapa que merece sentirse verdaderamente suya. Escuchamos qué imagina, qué le gusta y cómo quiere vivir ese día para crear una celebración con su personalidad, sin perder de vista cada detalle que la familia necesita tener bajo control."
       bullets={[
         "Asesoría de estilo y tendencias actuales",
         "Coordinación de vals, protocolo y sorpresas",
@@ -1471,13 +1502,13 @@ function XVAnosView() {
 function AniversariosView() {
   return (
     <ServiceLandingPage
-      headline="Celebra lo que sea, como se merece"
+      headline="Cualquier motivo para celebrar merece vivirse así"
       eyebrow="Aniversarios y otros"
       accent={COLOR.rose}
       heroImage={IMG_SERVICE_OTROS}
       heroVideo={VIDEO_HERO_ANIVERSARIOS}
       heroVideoPoster={POSTER_ANIVERSARIOS}
-      intro="Bautizos, aniversarios, graduaciones, reuniones familiares — cualquier motivo para celebrar merece la misma atención al detalle que le damos a una boda o un evento corporativo."
+      intro="Un bautizo, un aniversario, una graduación, una reunión familiar — no necesitan ser una boda o un evento corporativo para merecer el mismo cuidado. Me encargo de cada detalle, del más grande al más pequeño, para que tú vivas la celebración en vez de estar organizándola."
       bullets={[
         "Eventos de cualquier tamaño, desde 20 hasta 500+ invitados",
         "Locaciones en toda la Zona Metropolitana de Guadalajara",
@@ -1487,7 +1518,7 @@ function AniversariosView() {
         "Un punto de contacto de principio a fin",
       ]}
       galleryImages={[
-        { src: IMG_GALLERY_ANIVERSARIO, label: "Aniversario" },
+        { src: IMG_POSADA_PAPEL_PICADO, label: "Aniversario" },
         { src: IMG_GALLERY_AIRE_LIBRE, label: "Celebración al aire libre" },
       ]}
       defaultTipo="Aniversarios y otros"
@@ -1499,19 +1530,19 @@ function AniversariosView() {
 function ConvencionesView() {
   return (
     <ServiceLandingPage
-      headline="Congresos y convenciones sin sorpresas de logística"
+      headline="Todo en su lugar para que el contenido sea el protagonista"
       eyebrow="Convenciones"
       accent={COLOR.blush}
       heroImage={IMG_CONVENCION_GRUPO}
       heroVideo={VIDEO_HERO_CONVENCIONES}
       heroVideoPoster={POSTER_CONVENCIONES}
-      intro="Juntas anuales, congresos, capacitaciones de varios días — coordinamos la logística completa para que tu equipo se enfoque en el contenido, no en resolver imprevistos."
+      intro="Una convención puede reunir cientos de personas, diferentes proveedores, contenidos, tiempos y necesidades al mismo tiempo. Nuestro trabajo es coordinar cada parte para que todo fluya y tu equipo pueda concentrarse en lo realmente importante: las personas, el mensaje y el objetivo del evento."
       bullets={[
         "Producción audiovisual y escenario",
         "Coordinación de ponentes y agenda del evento",
         "Logística de registro y acreditación de asistentes",
         "Catering y coffee breaks integrados (con nuestra propia marca)",
-        "Locaciones para 50 hasta 1000+ asistentes",
+        "Búsqueda y coordinación de venues de acuerdo con el formato y número de asistentes.",
         "Un solo equipo responsable de principio a fin",
       ]}
       galleryImages={[
@@ -1536,7 +1567,10 @@ function ContactoView() {
       <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-4 text-center">
         <Eyebrow color={COLOR.ink}>Contacto</Eyebrow>
         <p className="text-base max-w-lg mx-auto mt-4" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
-          Coffee Breaks y Event Planner son un mismo equipo — escríbenos aquí sin importar cuál de los dos necesitas, y te contestamos directo por WhatsApp.
+          Cuéntame qué tienes en mente. Puede ser un evento completo, un coffee break o apenas una idea que comienza a tomar forma. Desde aquí podemos conocer lo que necesitas y encontrar juntos la mejor manera de hacerlo realidad.
+        </p>
+        <p className="text-sm max-w-md mx-auto mt-3" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+          Ale García Coffee Break y Ale García Event Planner forman parte del mismo equipo, así que no necesitas preocuparte por elegir el contacto correcto.
         </p>
         <p className="text-sm max-w-md mx-auto mt-3" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
           Atendemos toda la Zona Metropolitana de Guadalajara, con disponibilidad para eventos en el resto de Jalisco.
@@ -1581,7 +1615,7 @@ function ContactoView() {
       <section className="px-6 py-16" style={{ backgroundColor: COLOR.creamDeep }}>
         <div className="mx-auto max-w-lg text-center mb-8">
           <h3 className="text-2xl sm:text-3xl uppercase" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-            O cuéntanos aquí directo
+            Cuéntame de tu evento
           </h3>
         </div>
         <PlannerLeadForm
@@ -1598,33 +1632,23 @@ function ContactoView() {
 function PlannerView() {
   return (
     <div>
-      <PageHero headline="Creando eventos inolvidables" accent={COLOR.rose} imageUrl={IMG_HERO_PLANNER} videoUrl={VIDEO_HERO_PLANNER} objectPosition="center 80%" />
+      <PageHero headline="Eventos que se viven, se disfrutan y se recuerdan" accent={COLOR.rose} imageUrl={IMG_HERO_PLANNER} videoUrl={VIDEO_HERO_PLANNER} objectPosition="center 80%" />
 
       <Reveal className="mx-auto max-w-2xl px-6 pt-16 pb-14 text-center">
         <Eyebrow color={COLOR.rose}>Planner</Eyebrow>
         <h3 className="text-2xl sm:text-3xl uppercase mb-3" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-          El detalle nunca es un detalle
+          Cada detalle cuenta
         </h3>
-        <p className="text-sm max-w-md mx-auto" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
-          Organizamos tu evento social o corporativo cuidando cada decisión, por pequeña que parezca — de la primera idea al último brindis.
-        </p>
-      </Reveal>
-
-      {/* ── Bloque nuevo, sugerido por la retroalimentación de la jefa/ChatGPT ──
-          Aterriza qué significa "corporativo" y qué significa "celebración"
-          antes del mosaico de servicios, sin convertir el brand statement de
-          arriba en un catálogo. Solo existe en Planner — no se tocó nada más. */}
-      <Reveal className="mx-auto max-w-2xl px-6 pb-14 text-center">
-        <p className="text-sm sm:text-base leading-relaxed" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
+        <p className="text-sm sm:text-base leading-relaxed max-w-xl mx-auto" style={{ color: COLOR.ink, fontFamily: FONTS.body }}>
           Creo eventos corporativos que conectan personas, celebran logros y dejan huella, así como celebraciones especiales pensadas para disfrutarse de principio a fin. De un kickoff a una gran celebración, cuido cada detalle para transformar cada momento en una experiencia que se vive y se recuerda.
         </p>
       </Reveal>
 
       <section className="mx-auto max-w-5xl px-6 pb-20">
         <Reveal className="text-center mb-10">
-          <Eyebrow color={COLOR.rose}>Qué creo</Eyebrow>
+          <Eyebrow color={COLOR.rose}>Planner</Eyebrow>
           <h3 className="text-2xl sm:text-3xl uppercase mt-2 mb-3" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-            Experiencias que creo
+            Experiencias Planner
           </h3>
           <p className="text-sm max-w-lg mx-auto" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
             Cada evento tiene una razón distinta para suceder. Mi trabajo es entenderla, darle forma y cuidar cada detalle para que tú puedas vivirlo y disfrutarlo.
@@ -1738,7 +1762,7 @@ function PlannerView() {
         <div className="mx-auto max-w-5xl">
           <Eyebrow color={COLOR.rose}>Cómo trabajamos</Eyebrow>
           <h3 className="text-3xl sm:text-4xl uppercase mb-10 max-w-md" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
-            Tú pones la idea, nosotros el resto
+            Tú compartes la idea. Juntos le damos forma
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6">
             {PLANNER_PROCESS.map((p, i) => (
