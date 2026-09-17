@@ -421,13 +421,29 @@ function PageHero({ headline, accent, imageUrl = null, videoUrl = null, videoPos
 
   return (
     <section ref={parallaxRef} className="relative overflow-hidden" style={{ height: "420px" }}>
-      <div className="absolute inset-0" style={{ transform: reduced ? "none" : `translateY(${offset}px) scale(1.1)` }}>
+      <div
+        className="absolute inset-0"
+        style={{
+          transform: reduced ? "none" : `translateY(${offset}px) scale(1.1)`,
+          // Respaldo solo para el caso de video: mientras descarga (o si llegara
+          // a fallar), se ve el poster puesto como fondo CSS, independiente del
+          // <video> — así nunca hay un hueco gris mientras carga.
+          ...(videoUrl
+            ? {
+                backgroundImage: videoPoster ? `url(${videoPoster})` : undefined,
+                backgroundSize: "cover",
+                backgroundPosition: objectPosition,
+              }
+            : {}),
+        }}
+      >
         {videoUrl ? (
           <video
             className="h-full w-full object-cover"
             style={{ objectPosition }}
             src={videoUrl}
             poster={videoPoster || undefined}
+            preload="auto"
             autoPlay
             muted
             loop
@@ -1518,7 +1534,7 @@ function AniversariosView() {
         "Un punto de contacto de principio a fin",
       ]}
       galleryImages={[
-        { src: IMG_POSADA_PAPEL_PICADO, label: "Aniversario" },
+        { src: IMG_SERVICE_OTROS, label: "Aniversario" },
         { src: IMG_GALLERY_AIRE_LIBRE, label: "Celebración al aire libre" },
       ]}
       defaultTipo="Aniversarios y otros"
