@@ -1628,6 +1628,75 @@ function ContactoView() {
         </Reveal>
       </section>
 
+      <Reveal delay={0.08} className="mx-auto max-w-2xl px-6 pb-14 text-center">
+        <p className="text-xs uppercase tracking-[0.15em] mb-2" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+          También puedes llamarnos o buscarnos en redes
+        </p>
+        <a
+          href={`tel:+${WHATSAPP_NUMBER}`}
+          className="inline-block text-xl mb-8 transition-opacity hover:opacity-70"
+          style={{ color: COLOR.ink, fontFamily: FONTS.display, fontWeight: 700 }}
+        >
+          +52 33 2029 6849
+        </a>
+        <div className="flex flex-wrap items-start justify-center gap-10">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+              Coffee Breaks
+            </span>
+            <div className="flex items-center gap-3">
+              <a
+                href={SOCIAL_LINKS.instagramCoffee}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram de Ale García Coffee Breaks"
+                className="flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 hover:shadow-md"
+                style={{ backgroundColor: COLOR.blushSoft, color: COLOR.blushDeep }}
+              >
+                <Instagram size={20} />
+              </a>
+              <a
+                href={SOCIAL_LINKS.facebookCoffee}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook de Ale García Coffee Breaks"
+                className="flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 hover:shadow-md"
+                style={{ backgroundColor: COLOR.blushSoft, color: COLOR.blushDeep }}
+              >
+                <Facebook size={20} />
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: COLOR.inkSoft, fontFamily: FONTS.body }}>
+              Event Planner
+            </span>
+            <div className="flex items-center gap-3">
+              <a
+                href={SOCIAL_LINKS.instagramPlanner}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram de Ale García Planner"
+                className="flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 hover:shadow-md"
+                style={{ backgroundColor: COLOR.roseSoft, color: COLOR.roseDeep }}
+              >
+                <Instagram size={20} />
+              </a>
+              <a
+                href={SOCIAL_LINKS.facebookPlanner}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook de Ale García Planner"
+                className="flex h-12 w-12 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 hover:shadow-md"
+                style={{ backgroundColor: COLOR.roseSoft, color: COLOR.roseDeep }}
+              >
+                <Facebook size={20} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <section className="px-6 py-16" style={{ backgroundColor: COLOR.creamDeep }}>
         <div className="mx-auto max-w-lg text-center mb-8">
           <h3 className="text-2xl sm:text-3xl uppercase" style={{ fontFamily: FONTS.display, color: COLOR.ink }}>
